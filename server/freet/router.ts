@@ -1,6 +1,7 @@
 import type {NextFunction, Request, Response} from 'express';
 import express from 'express';
 import FreetCollection from './collection';
+import UserCollection from '../user/collection';
 import * as userValidator from '../user/middleware';
 import * as freetValidator from '../freet/middleware';
 import * as util from './util';
@@ -8,7 +9,7 @@ import * as util from './util';
 const router = express.Router();
 
 /**
- * Get all the freets
+ * Get all the freets that the logged in user can access.
  *
  * @name GET /api/freets
  *
@@ -16,7 +17,7 @@ const router = express.Router();
  *                      order by date modified
  */
 /**
- * Get freets by author.
+ * Get freets by author that the logged in user can access.
  *
  * @name GET /api/freets?author=username
  *
@@ -34,7 +35,13 @@ router.get(
       return;
     }
 
-    const allFreets = await FreetCollection.findAll();
+    let allFreets;
+    if (req.session.userId) {
+      allFreets = await FreetCollection.findAllVisibleToUser(req.session.userId);
+    } else {
+      allFreets = await FreetCollection.findAll({visibility: 'public'});
+    }
+
     const response = allFreets.map(util.constructFreetResponse);
     res.status(200).json(response);
   },
@@ -42,7 +49,14 @@ router.get(
     userValidator.isAuthorExists
   ],
   async (req: Request, res: Response) => {
-    const authorFreets = await FreetCollection.findAllByUsername(req.query.author as string);
+    let authorFreets;
+    const author = await UserCollection.findOneByUsername(req.query.author as string);
+    if (req.session.userId) {
+      authorFreets = await FreetCollection.findAllVisibleToUser(req.session.userId as string, {authorId: author._id});
+    } else {
+      authorFreets = await FreetCollection.findAll({visibility: 'public', authorId: author._id});
+    }
+
     const response = authorFreets.map(util.constructFreetResponse);
     res.status(200).json(response);
   }
@@ -67,7 +81,7 @@ router.post(
   ],
   async (req: Request, res: Response) => {
     const userId = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
-    const freet = await FreetCollection.addOne(userId, req.body.content);
+    const freet = await FreetCollection.addOne(userId, req.body);
 
     res.status(201).json({
       message: 'Your freet was created successfully.',
@@ -107,6 +121,7 @@ router.delete(
  * @name PATCH /api/freets/:id
  *
  * @param {string} content - the new content for the freet
+ * @param {string} visibility - the new visibility for the freet
  * @return {FreetResponse} - the updated freet
  * @throws {403} - if the user is not logged in or not the author of
  *                 of the freet
@@ -123,7 +138,7 @@ router.patch(
     freetValidator.isValidFreetContent
   ],
   async (req: Request, res: Response) => {
-    const freet = await FreetCollection.updateOne(req.params.freetId, req.body.content);
+    const freet = await FreetCollection.updateOne(req.params.freetId, req.body);
     res.status(200).json({
       message: 'Your freet was updated successfully.',
       freet: util.constructFreetResponse(freet)

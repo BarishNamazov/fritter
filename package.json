@@ -22,6 +22,7 @@
         "mongoose": "^6.6.2",
         "morgan": "~1.10.0",
         "nanoid": "^3.3.4",
+        "validator": "^13.7.0",
         "vue": "^2.7.13",
         "vue-router": "^3.6.5",
         "vuex": "^3.6.2",
@@ -33,6 +34,7 @@
         "@types/express-session": "1.17.0",
         "@types/morgan": "^1.9.3",
         "@types/uuid": "^8.3.4",
+        "@types/validator": "^13.7.10",
         "@vue/cli-plugin-router": "^5.0.8",
         "@vue/cli-service": "^5.0.8",
         "eslint-config-xo": "^0.42.0",
@@ -54,7 +56,9 @@
                 "files": [
                     "**/*.ts"
                 ],
-                "excludedFiles": ["client/**"],
+                "excludedFiles": [
+                    "client/**"
+                ],
                 "extends": [
                     "xo",
                     "xo-typescript/space",

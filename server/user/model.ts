@@ -12,6 +12,7 @@ export type User = {
   username: string;
   password: string;
   dateJoined: Date;
+  currentTakeBreak?: Types.ObjectId;
 };
 
 // Mongoose schema definition for interfacing with a MongoDB table
@@ -32,6 +33,16 @@ const UserSchema = new Schema({
   dateJoined: {
     type: Date,
     required: true
+  }
+});
+
+UserSchema.virtual('currentTakeBreak', {
+  ref: 'TakeBreak',
+  localField: '_id',
+  foreignField: 'userId',
+  justOne: true,
+  match: {
+    dateEnd: null
   }
 });
 

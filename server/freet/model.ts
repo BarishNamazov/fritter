@@ -14,6 +14,9 @@ export type Freet = {
   dateCreated: Date;
   content: string;
   dateModified: Date;
+  visibility: 'public' | 'friends' | 'only me';
+  numUpvotes: number;
+  numDownvotes: number;
 };
 
 export type PopulatedFreet = {
@@ -22,6 +25,9 @@ export type PopulatedFreet = {
   dateCreated: Date;
   content: string;
   dateModified: Date;
+  visibility: 'public' | 'friends' | 'only me';
+  numUpvotes: number;
+  numDownvotes: number;
 };
 
 // Mongoose schema definition for interfacing with a MongoDB table
@@ -49,6 +55,35 @@ const FreetSchema = new Schema<Freet>({
   dateModified: {
     type: Date,
     required: true
+  },
+  // The visibility of the freet
+  visibility: {
+    type: String,
+    required: true,
+    enum: ['public', 'friends', 'only me'],
+    default: 'public'
+  }
+});
+
+FreetSchema.virtual('numUpvotes', {
+  ref: 'Upvote',
+  localField: '_id',
+  foreignField: 'itemId',
+  count: true,
+  match: {
+    vote: 'upvote',
+    onModel: 'Freet'
+  }
+});
+
+FreetSchema.virtual('numDownvotes', {
+  ref: 'Upvote',
+  localField: '_id',
+  foreignField: 'itemId',
+  count: true,
+  match: {
+    vote: 'downvote',
+    onModel: 'Freet'
   }
 });
 
