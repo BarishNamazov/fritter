@@ -13,14 +13,21 @@ export default {
       hasBody: true,
       setUsername: true,
       fields: [
-        {id: 'username', label: 'Username', value: ''},
-        {id: 'password', label: 'Password', value: ''}
+        { id: 'username', label: 'Username', value: '' },
+        { id: 'password', label: 'Password', value: '' }
       ],
       title: 'Sign in',
       callback: () => {
-        this.$router.push({name: 'Home'});
+        this.$router.push({ name: 'Home' });
         this.$store.commit('alert', {
           message: 'You are now signed in!', status: 'success'
+        });
+        fetch('/api/quickaccess', {
+          credentials: 'same-origin' // Sends express-session credentials with request
+        }).then(res => res.json()).then(res => {
+          console.log(res);
+          const quickaccess = res.quickAccess.entries;
+          this.$store.commit('setQuickAccess', quickaccess ? quickaccess : []);
         });
       }
     };

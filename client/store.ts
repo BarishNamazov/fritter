@@ -12,7 +12,8 @@ const store = new Vuex.Store({
     filter: null, // Username to filter shown freets by (null = show all)
     freets: [], // All freets created in the app
     username: null, // Username of the logged in user
-    alerts: {} // global success/error messages encountered during submissions to non-visible forms
+    alerts: {}, // global success/error messages encountered during submissions to non-visible forms
+    quickAccess: [], // Quick access list for the logged in user
   },
   mutations: {
     alert(state, payload) {
@@ -52,6 +53,13 @@ const store = new Vuex.Store({
       const url = state.filter ? `/api/users/${state.filter}/freets` : '/api/freets';
       const res = await fetch(url).then(async r => r.json());
       state.freets = res;
+    },
+    setQuickAccess(state, quickAccess) {
+      /**
+       * Update the stored quick access to the provided quick access.
+       * @param quickAccess - Quick access to store
+       */
+      state.quickAccess = quickAccess;
     }
   },
   // Store data across page refreshes, only discard on browser close
