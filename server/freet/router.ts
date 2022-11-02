@@ -52,7 +52,7 @@ router.get(
     let authorFreets;
     const author = await UserCollection.findOneByUsername(req.query.author as string);
     if (req.session.userId) {
-      authorFreets = await FreetCollection.findAllVisibleToUser(req.session.userId as string, {authorId: author._id});
+      authorFreets = await FreetCollection.findVisibleOfUser(req.session.userId as string, author._id);
     } else {
       authorFreets = await FreetCollection.findAll({visibility: 'public', authorId: author._id});
     }

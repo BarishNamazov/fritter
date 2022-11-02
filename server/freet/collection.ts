@@ -82,6 +82,22 @@ class FreetCollection {
     ]});
   }
 
+  static async findVisibleOfUser(userId: Types.ObjectId | string, authorId: Types.ObjectId | string): Promise<Array<HydratedDocument<Freet>>> {
+    const friendIds = await FriendCollection.findOneFriend(userId, authorId);
+    const qs = [
+      {authorId, visibility: 'public'}
+    ];
+    if (friendIds) {
+      qs.push({authorId, visibility: 'friends'});
+    }
+
+    if ((userId as string) === (authorId as string)) {
+      qs.push({authorId, visibility: 'only me'});
+    }
+
+    return this.findAll({$or: qs});
+  }
+
   /**
    * Update a freet with the new stuff
    *
