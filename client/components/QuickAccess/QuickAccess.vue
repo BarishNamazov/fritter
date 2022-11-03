@@ -60,6 +60,9 @@ export default {
       }
     }
   },
+  mounted() {
+    console.log("quickaccess mounted");
+  },
   methods: {
     startEditing() {
       this.editing = true;

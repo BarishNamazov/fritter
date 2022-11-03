@@ -14,6 +14,7 @@ const store = new Vuex.Store({
     username: null, // Username of the logged in user
     alerts: {}, // global success/error messages encountered during submissions to non-visible forms
     quickAccess: [], // Quick access list for the logged in user
+    votes: {freet: new Set(), comment: new Set()}, // Upvotes/downvotes for freets and comments
   },
   mutations: {
     alert(state, payload) {
@@ -60,6 +61,28 @@ const store = new Vuex.Store({
        * @param quickAccess - Quick access to store
        */
       state.quickAccess = quickAccess;
+    },
+    setVotes(state, upvotes) {
+      state.votes = {
+        freet: new Set(upvotes.freets),
+        comment: new Set(upvotes.comments),
+      };
+      console.log(state.votes);
+    },
+    upvoteModel(state, payload) {
+      const {model, id} = payload;
+      state.votes[model].delete([id, 'downvote']);
+      state.votes[model].add([id, 'upvote']);
+    },
+    downvoteModel(state, payload) {
+      const {model, id} = payload;
+      state.votes[model].delete([id, 'upvote']);
+      state.votes[model].add([id, 'downvote']);
+    },
+    unvoteModel(state, payload) {
+      const {model, id} = payload;
+      state.votes[model].delete([id, 'upvote']);
+      state.votes[model].delete([id, 'downvote']);
     }
   },
   // Store data across page refreshes, only discard on browser close

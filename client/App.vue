@@ -3,16 +3,20 @@
     <header>
       <NavBar />
     </header>
+    <section v-if="$store.state.username">
+      <QuickAccess />
+    </section>
     <router-view />
   </div>
 </template>
 
 <script>
 import NavBar from "@/components/common/NavBar.vue";
+import QuickAccess from "@/components/QuickAccess/QuickAccess.vue";
 
 export default {
   name: "App",
-  components: { NavBar },
+  components: { NavBar, QuickAccess },
   beforeCreate() {
     // Sync stored username to current session
     fetch("/api/users/session", {

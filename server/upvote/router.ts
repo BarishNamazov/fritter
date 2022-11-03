@@ -17,8 +17,8 @@ router.get(
     userValidator.isUserLoggedIn
   ],
   async (req: Request, res: Response, next: NextFunction) => {
-    const freets = await UpvoteCollection.findAll({userId: req.session.userId as string, onModel: 'Freet'});
-    const comments = await UpvoteCollection.findAll({userId: req.session.userId as string, onModel: 'Comment'});
+    const freets = (await UpvoteCollection.findAll({userId: req.session.userId as string, onModel: 'Freet'})).map(upvote => [upvote.itemId, upvote.vote]);
+    const comments = (await UpvoteCollection.findAll({userId: req.session.userId as string, onModel: 'Comment'})).map(upvote => [upvote.itemId, upvote.vote]);
     res.status(200).json({freets, comments});
   }
 );

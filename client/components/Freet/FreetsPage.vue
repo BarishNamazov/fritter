@@ -3,9 +3,6 @@
 <template>
   <main>
     <section v-if="$store.state.username">
-      <QuickAccess />
-    </section>
-    <section v-if="$store.state.username">
       <header>
         <h2>Welcome @{{ $store.state.username }}</h2>
       </header>
@@ -59,11 +56,10 @@
 import FreetComponent from "@/components/Freet/FreetComponent.vue";
 import CreateFreetForm from "@/components/Freet/CreateFreetForm.vue";
 import GetFreetsForm from "@/components/Freet/GetFreetsForm.vue";
-import QuickAccess from "@/components/QuickAccess/QuickAccess.vue";
 
 export default {
   name: "FreetPage",
-  components: { FreetComponent, GetFreetsForm, CreateFreetForm, QuickAccess },
+  components: { FreetComponent, GetFreetsForm, CreateFreetForm },
   mounted() {
     this.$refs.getFreetsForm.submit();
   },
