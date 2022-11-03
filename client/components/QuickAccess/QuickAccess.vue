@@ -51,7 +51,7 @@ export default {
   data() {
     return {
       editing: false,
-      form: this.$store.state.quickAccess,
+      form: Array.from(this.$store.state.quickAccess),
     };
   },
   computed: {
@@ -113,7 +113,7 @@ export default {
       );
       this.form.splice(index, 1);
     },
-  },
+  }
 };
 </script>
 
