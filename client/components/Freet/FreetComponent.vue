@@ -12,18 +12,27 @@
         <button @click="deleteFreet">🗑️ Delete</button>
       </div>
     </header>
-    <textarea
-      v-if="editing"
-      class="content"
-      :value="draft"
-      @input="draft = $event.target.value"
-    />
-    <p v-else class="content">
-      {{ freet.content }}
-    </p>
+    <div v-if="editing">
+      <textarea
+        class="content"
+        :value="draft"
+        @input="draft = $event.target.value"
+      />
+      <input v-model="visibility" type="radio" name="public" :value="'public'" /><label for="public">Public</label>
+      <input v-model="visibility" type="radio" name="friends" :value="'friends'" /><label for="friends">Friends</label>
+      <input v-model="visibility" type="radio" name="only me" :value="'only me'" /><label for="only me">Only me</label>
+    </div>
+    <div v-else>
+      <p class="visibility"> visibility: {{ freet.visibility }} </p>
+      <p class="content">
+        {{ freet.content }}
+      </p>
+    </div>
     <p class="info">
-      Posted at {{ freet.dateModified }}
-      <i v-if="freet.edited">(edited)</i>
+      <span v-if="freet.dateModified === freet.dateCreated">Posted</span>
+      <span v-else>Updated</span> 
+      at {{ freet.dateModified }}
+      <i v-if="freet.dateModified !== freet.dateCreated">(edited)</i>
     </p>
     <section class="alerts">
       <article
@@ -51,6 +60,7 @@ export default {
     return {
       editing: false, // Whether or not this freet is in edit mode
       draft: this.freet.content, // Potentially-new content for this freet
+      visibility: this.freet.visibility,
       alerts: {}, // Displays success/error messages encountered during freet modification
     };
   },
@@ -88,9 +98,9 @@ export default {
       /**
        * Updates freet to have the submitted draft content.
        */
-      if (this.freet.content === this.draft) {
+      if (this.freet.content === this.draft && this.freet.visibility === this.visibility) {
         const error =
-          "Error: Edited freet content should be different than current freet content.";
+          "Error: Edited freet content or visibility should be different than current freet content or visibility.";
         this.$set(this.alerts, error, "error"); // Set an alert to be the error text, timeout of 3000 ms
         setTimeout(() => this.$delete(this.alerts, error), 3000);
         return;
@@ -99,7 +109,7 @@ export default {
       const params = {
         method: "PATCH",
         message: "Successfully edited freet!",
-        body: JSON.stringify({ content: this.draft }),
+        body: JSON.stringify({ content: this.draft, visibility: this.visibility }),
         callback: () => {
           this.$set(this.alerts, params.message, "success");
           setTimeout(() => this.$delete(this.alerts, params.message), 3000);

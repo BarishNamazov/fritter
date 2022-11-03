@@ -35,13 +35,14 @@ export default {
   box-sizing: border-box;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
 body {
   height: 100vh;
   flex-direction: column;
   display: flex;
   padding: 0;
   margin: 0;
-  font-size: 1.2em;
+  font-family: Lato, sans-serif;
 }
 
 main {
