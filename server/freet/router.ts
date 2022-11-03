@@ -5,6 +5,7 @@ import UserCollection from '../user/collection';
 import * as userValidator from '../user/middleware';
 import * as freetValidator from '../freet/middleware';
 import * as util from './util';
+import { isValidObjectId } from 'mongoose';
 
 const router = express.Router();
 
@@ -58,6 +59,23 @@ router.get(
     }
 
     const response = authorFreets.map(util.constructFreetResponse);
+    res.status(200).json(response);
+  }
+);
+
+router.get(
+  '/:freetId',
+  async (req: Request, res: Response, next: NextFunction) => {
+    if (!isValidObjectId(req.params.freetId)) {
+      res.status(400).json({error: 'Invalid freet ID'});
+      return;
+    }
+    const freets = await FreetCollection.findAllVisibleToUser(req.session.userId, {_id: req.params.freetId});
+    if (!freets) {
+      res.status(404).json({error: 'Freet not found.'});
+    }
+
+    const response = freets.map(util.constructFreetResponse);
     res.status(200).json(response);
   }
 );
