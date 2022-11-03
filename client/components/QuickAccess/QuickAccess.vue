@@ -5,34 +5,22 @@
     <button v-if="editing" @click="addEntry">Add</button>
     <draggable
       v-if="form.length"
-      group="people"
       v-bind="dragOptions"
       handle=".handle"
-      @start="drag = true"
-      @end="drag = false"
+      @start="drag=true"
+      @end="drag=false"
     >
-      <div v-if="!editing">
-        <article
-          v-for="{ name, url } in form"
-          :key="name"
-          class="quick-access-entry"
-        >
-          <a :href="url">{{ name }}</a>
-        </article>
-      </div>
-      <div v-else>
-        <article
-          v-for="(entry, index) in form"
-          :key="entry.name + '-' + index"
-          class="quick-access-entry-input"
-        >
-          <span class="handle">X</span>
-          <input :value="entry.name" class="name" />
-          <input :value="entry.url" class="url" />
-
-          <button v-if="editing" @click="deleteEntry">Delete</button>
-        </article>
-      </div>
+      <!--eslint-disable-next-line vue/no-use-v-if-with-v-for -->
+      <article v-for="{ name, url } in form" v-if="!editing" :key="name" class="quick-access-entry">
+        <a :href="url">{{ name }}</a>
+      </article>
+      <!-- eslint-disable-next-line vue/no-use-v-if-with-v-for -->
+      <article v-for="({name, url}, index) in form" v-if="editing" :key="name + '-' + index" class="quick-access-entry-input">
+        <span class="handle">X</span>
+        <input :value="name" class="name" />
+        <input :value="url" class="url" />
+        <button v-if="editing" @click="deleteEntry">Delete</button>
+      </article>
     </draggable>
     <article v-else>
       <p>No quick access found.</p>
@@ -50,6 +38,7 @@ export default {
   },
   data() {
     return {
+      drag: false,
       editing: false,
       form: Array.from(this.$store.state.quickAccess),
     };
@@ -65,12 +54,17 @@ export default {
     "$store.state.quickAccess": function (newVal) {
       this.form = newVal;
     },
+    drag: function (newVal) {
+      if (!newVal) {
+        this.updateForm();
+      }
+    }
   },
   methods: {
     startEditing() {
       this.editing = true;
     },
-    saveEdits() {
+    updateForm() {
       const newForm = [];
       const inputContainers = document.getElementsByClassName(
         "quick-access-entry-input"
@@ -80,12 +74,16 @@ export default {
         const url = inputContainer.querySelector(".url").value;
         newForm.push({ name, url });
       }
+      this.form = newForm;
+    },
+    saveEdits() {
+      this.updateForm();
       fetch("/api/quickaccess", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ entries: newForm }),
+        body: JSON.stringify({ entries: this.form }),
       })
         .then((res) => res.json())
         .then((data) => {
@@ -95,17 +93,18 @@ export default {
               message: data.error,
             });
           } else {
-            this.$store.commit("setQuickAccess", newForm);
+            this.$store.commit("setQuickAccess", this.form);
             this.editing = false;
-            this.form = newForm;
           }
         })
         .catch((err) => console.error(err));
     },
     addEntry() {
+      this.updateForm();
       this.form.push({ name: "", url: "" });
     },
     deleteEntry(event) {
+      this.updateForm();
       const name = event.target.parentNode.querySelector(".name").value;
       const url = event.target.parentNode.querySelector(".url").value;
       const index = this.form.findIndex(
