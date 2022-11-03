@@ -28,6 +28,9 @@
         {{ freet.content }}
       </p>
     </div>
+    <p class="votes">
+      <Vote :item="freet" :model="'freet'" />  
+    </p>
     <p class="info">
       <span v-if="freet.dateModified === freet.dateCreated">Posted</span>
       <span v-else>Updated</span> 
@@ -47,8 +50,13 @@
 </template>
 
 <script>
+import Vote from "@/components/Vote/Vote.vue";
+
 export default {
   name: "FreetComponent",
+  components: {
+    Vote,
+  },
   props: {
     // Data from the stored freet
     freet: {
@@ -156,6 +164,7 @@ export default {
 .freet {
   border: 1px solid #111;
   padding: 20px;
+  border-radius: 10px;
   position: relative;
 }
 </style>

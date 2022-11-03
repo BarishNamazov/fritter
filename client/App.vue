@@ -27,7 +27,6 @@ export default {
       const user = res.user;
       this.$store.commit("setUsername", user ? user.username : null);
     });
-
     // Clear alerts on page refresh
     this.$store.state.alerts = {};
   },
@@ -37,6 +36,8 @@ export default {
 <style>
 * {
   box-sizing: border-box;
+  --upvote-color: #00b300;
+  --downvote-color: #ff0000;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');

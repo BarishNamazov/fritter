@@ -17,9 +17,9 @@ router.get(
     userValidator.isUserLoggedIn
   ],
   async (req: Request, res: Response, next: NextFunction) => {
-    const freets = (await UpvoteCollection.findAll({userId: req.session.userId as string, onModel: 'Freet'})).map(upvote => [upvote.itemId, upvote.vote]);
-    const comments = (await UpvoteCollection.findAll({userId: req.session.userId as string, onModel: 'Comment'})).map(upvote => [upvote.itemId, upvote.vote]);
-    res.status(200).json({freets, comments});
+    const upvotes = await UpvoteCollection.findAll({userId: req.session.userId as string});
+    const response = upvotes.map(upvote => ({id: upvote.itemId, vote: upvote.vote, model: upvote.onModel}));
+    res.status(200).json(response);
   }
 );
 
@@ -52,6 +52,7 @@ router.put(
     await UpvoteCollection.addOne(req.session.userId, freetId, 'Freet', vote);
     const freet = await FreetCollection.findOne(freetId);
     res.status(statusCode).json({
+      error: statusCode === 409 ? message : undefined,
       message,
       upvotes: freet.numUpvotes,
       downvotes: freet.numDownvotes

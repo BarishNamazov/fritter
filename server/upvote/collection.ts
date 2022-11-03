@@ -22,7 +22,7 @@ class UpvoteCollection {
   }
 
   static async findAll(filter: Record<string, string> = {}): Promise<Array<HydratedDocument<Upvote>>> {
-    return UpvoteModel.find(filter).populate('itemId');
+    return UpvoteModel.find(filter);
   }
 
   static async deleteOneById(upvoteId: MongoId): Promise<void> {

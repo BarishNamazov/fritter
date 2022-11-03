@@ -11,7 +11,7 @@ export const getDefaultState = () => {
     username: null, // Username of the logged in user
     alerts: {}, // global success/error messages encountered during submissions to non-visible forms
     quickAccess: [], // Quick access list for the logged in user
-    votes: {freet: new Set(), comment: new Set()}, // Upvotes/downvotes for freets and comments
+    votes: {freet: {}, comment: {}}, // Upvotes/downvotes for freets and comments
   }
 };
 
@@ -72,31 +72,37 @@ const store = new Vuex.Store({
       })
       .then((res) => res.json())
       .then((res) => {
-        console.log(res);
         state.quickAccess = res.quickAccess.entries;
       });
     },
-    setVotes(state, upvotes) {
+    async initVotes(state) {
       state.votes = {
-        freet: new Set(upvotes.freets),
-        comment: new Set(upvotes.comments),
+        freet: {},
+        comment: {},
       };
-      console.log(state.votes);
+      await fetch('/api/votes/my', {
+        credentials: "same-origin",
+      })
+      .then(res => res.json())
+      .then(res => {
+        if (res.error) {
+          return;
+        }
+        const votes = {freet: {}, comment: {}};
+        res.forEach(vote => {
+          votes[vote.model.toLowerCase()][vote.id] = vote.vote;
+        });
+        console.log("state set to be votes");
+        state.votes = votes;
+      });
     },
-    upvoteModel(state, payload) {
-      const {model, id} = payload;
-      state.votes[model].delete([id, 'downvote']);
-      state.votes[model].add([id, 'upvote']);
-    },
-    downvoteModel(state, payload) {
-      const {model, id} = payload;
-      state.votes[model].delete([id, 'upvote']);
-      state.votes[model].add([id, 'downvote']);
+    voteModel(state, payload) {
+      const {model, id, vote} = payload;
+      state.votes[model][id] = vote;
     },
     unvoteModel(state, payload) {
       const {model, id} = payload;
-      state.votes[model].delete([id, 'upvote']);
-      state.votes[model].delete([id, 'downvote']);
+      delete state.votes[model][id];
     }
   },
   // Store data across page refreshes, only discard on browser close

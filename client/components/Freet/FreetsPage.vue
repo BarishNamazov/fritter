@@ -62,7 +62,9 @@ export default {
   components: { FreetComponent, GetFreetsForm, CreateFreetForm },
   mounted() {
     this.$refs.getFreetsForm.submit();
-  },
+    this.$store.commit("initVotes");
+    console.log("votes", JSON.stringify(this.$store.state.votes));
+  }
 };
 </script>
 
@@ -70,6 +72,7 @@ export default {
 section {
   display: flex;
   flex-direction: column;
+  gap: 1em;
 }
 
 header,
