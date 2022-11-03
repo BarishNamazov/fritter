@@ -38,6 +38,7 @@
         "@types/validator": "^13.7.10",
         "@vue/cli-plugin-router": "^5.0.8",
         "@vue/cli-service": "^5.0.8",
+        "@vue/runtime-dom": "^3.2.41",
         "eslint-config-xo": "^0.42.0",
         "eslint-config-xo-typescript": "^0.53.0",
         "eslint-plugin-vue": "^9.6.0",
@@ -99,7 +100,12 @@
                 "extends": [
                     "eslint:recommended",
                     "plugin:vue/recommended"
-                ]
+                ],
+                "rules": {
+                    "vue/max-attributes-per-line": "off",
+                    "vue/singleline-html-element-content-newline": "off",
+                    "vue/html-self-closing": "off"
+                }
             }
         ]
     },

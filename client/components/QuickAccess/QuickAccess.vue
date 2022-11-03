@@ -1,61 +1,38 @@
 <template>
   <section>
-    <button
-      v-if="!editing"
-      @click="startEditing"
-    >
-      ✏️ Edit
-    </button>
-    <button
-      v-if="editing"
-      @click="saveEdits"
-    >
-      Save
-    </button>
-    <button
-      v-if="editing"
-      @click="addEntry"
-    >
-      Add
-    </button>
+    <button v-if="!editing" @click="startEditing">✏️ Edit</button>
+    <button v-if="editing" @click="saveEdits">Save</button>
+    <button v-if="editing" @click="addEntry">Add</button>
     <draggable
       v-if="form.length"
       group="people"
       v-bind="dragOptions"
       handle=".handle"
-      @start="drag=true"
-      @end="drag=false"
+      @start="drag = true"
+      @end="drag = false"
     >
-      <article
-        v-for="{name, url} in form"
-        v-if="!editing"
-        :key="name"
-        class="quick-access-entry"
-      >
-        <a :href="url">{{ name }}</a>
-      </article>
-      <article
-        v-for="{name, url} in form"
-        v-if="editing"
-        :key="name"
-        class="quick-access-entry-input"
-      >
-        <span class="handle">X</span>
-        <input
-          :value="name"
-          class="name"
-        > <input
-          :value="url"
-          class="url"
+      <div v-if="!editing">
+        <article
+          v-for="{ name, url } in form"
+          :key="name"
+          class="quick-access-entry"
         >
+          <a :href="url">{{ name }}</a>
+        </article>
+      </div>
+      <div v-else>
+        <article
+          v-for="(entry, index) in form"
+          :key="entry.name + '-' + index"
+          class="quick-access-entry-input"
+        >
+          <span class="handle">X</span>
+          <input :value="entry.name" class="name" />
+          <input :value="entry.url" class="url" />
 
-        <button
-          v-if="editing"
-          @click="deleteEntry"
-        >
-          Delete
-        </button>
-      </article>
+          <button v-if="editing" @click="deleteEntry">Delete</button>
+        </article>
+      </div>
     </draggable>
     <article v-else>
       <p>No quick access found.</p>
@@ -63,11 +40,11 @@
   </section>
 </template>
 
-<script lang="ts">
-import draggable from 'vuedraggable'
+<script>
+import draggable from "vuedraggable";
 
 export default {
-  name: 'QuickAccess',
+  name: "QuickAccess",
   components: {
     draggable,
   },
@@ -81,13 +58,13 @@ export default {
     dragOptions() {
       return {
         disabled: !this.editing,
-      }
-    }
+      };
+    },
   },
   watch: {
-    '$store.state.quickAccess': function(newVal) {
+    "$store.state.quickAccess": function (newVal) {
       this.form = newVal;
-    }
+    },
   },
   methods: {
     startEditing() {
@@ -95,43 +72,49 @@ export default {
     },
     saveEdits() {
       const newForm = [];
-      const inputContainers = document.getElementsByClassName('quick-access-entry-input');
+      const inputContainers = document.getElementsByClassName(
+        "quick-access-entry-input"
+      );
       for (const inputContainer of inputContainers) {
-        const name = inputContainer.querySelector('.name').value;
-        const url = inputContainer.querySelector('.url').value;
+        const name = inputContainer.querySelector(".name").value;
+        const url = inputContainer.querySelector(".url").value;
         newForm.push({ name, url });
       }
-      fetch('/api/quickaccess', {
-        method: 'PUT',
+      fetch("/api/quickaccess", {
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({entries: newForm}),
+        body: JSON.stringify({ entries: newForm }),
       })
-      .then(res => res.json())
-      .then(data => {
-        if (data.error) {
-          this.$store.commit('alert', { status: 'error', message: data.error });
-        } else {
-          this.$store.commit('setQuickAccess', newForm);
-          this.editing = false;
-          this.form = newForm;
-        }
-      })
-      .catch(err => console.error(err));
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.error) {
+            this.$store.commit("alert", {
+              status: "error",
+              message: data.error,
+            });
+          } else {
+            this.$store.commit("setQuickAccess", newForm);
+            this.editing = false;
+            this.form = newForm;
+          }
+        })
+        .catch((err) => console.error(err));
     },
     addEntry() {
-      this.form.push({name: '', url: ''});
+      this.form.push({ name: "", url: "" });
     },
     deleteEntry(event) {
-      const name = event.target.parentNode.querySelector('.name').value;
-      const url = event.target.parentNode.querySelector('.url').value;
-      const index = this.form.findIndex(entry => entry.name === name && entry.url === url);
+      const name = event.target.parentNode.querySelector(".name").value;
+      const url = event.target.parentNode.querySelector(".url").value;
+      const index = this.form.findIndex(
+        (entry) => entry.name === name && entry.url === url
+      );
       this.form.splice(index, 1);
     },
-  }
-}
-
+  },
+};
 </script>
 
 <style scoped>
@@ -139,7 +122,7 @@ section {
   margin: 1em 0;
 }
 
-button{
+button {
   width: max-content;
   margin-bottom: 0.5em;
 }
@@ -163,5 +146,4 @@ button{
   cursor: move;
   margin-right: 0.5em;
 }
-
 </style>
