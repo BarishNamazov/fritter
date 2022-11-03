@@ -29,7 +29,10 @@
       </p>
     </div>
     <p class="votes">
-      <Vote :item="freet" :model="'freet'" />  
+      <Vote :item="freet" :model="'freet'" />
+    </p>
+    <p class="comments">
+      <a :href="'/#/freet/' + freet.id"><button>Comments</button></a>
     </p>
     <p class="info">
       <span v-if="freet.dateModified === freet.dateCreated">Posted</span>
