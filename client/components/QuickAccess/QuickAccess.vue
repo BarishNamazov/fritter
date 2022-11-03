@@ -61,7 +61,7 @@ export default {
     }
   },
   mounted() {
-    console.log("quickaccess mounted");
+    this.$store.commit('refreshQuickAccess');
   },
   methods: {
     startEditing() {

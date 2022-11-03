@@ -23,18 +23,6 @@ export default {
           message: "You are now signed in!",
           status: "success",
         });
-        fetch("/api/quickaccess", {
-          credentials: "same-origin", // Sends express-session credentials with request
-        })
-          .then((res) => res.json())
-          .then((res) => {
-            console.log(res);
-            const quickaccess = res.quickAccess.entries;
-            this.$store.commit(
-              "setQuickAccess",
-              quickaccess ? quickaccess : []
-            );
-          });
       },
     };
   },

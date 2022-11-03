@@ -22,11 +22,11 @@ export default {
     fetch("/api/users/session", {
       credentials: "same-origin", // Sends express-session credentials with request
     })
-      .then((res) => res.json())
-      .then((res) => {
-        const user = res.user;
-        this.$store.commit("setUsername", user ? user.username : null);
-      });
+    .then((res) => res.json())
+    .then((res) => {
+      const user = res.user;
+      this.$store.commit("setUsername", user ? user.username : null);
+    });
 
     // Clear alerts on page refresh
     this.$store.state.alerts = {};
