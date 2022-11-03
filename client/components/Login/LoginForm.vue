@@ -23,6 +23,7 @@ export default {
           message: "You are now signed in!",
           status: "success",
         });
+        this.$store.commit("initVotes");
       },
     };
   },
