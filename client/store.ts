@@ -4,18 +4,22 @@ import createPersistedState from 'vuex-persistedstate';
 
 Vue.use(Vuex);
 
-/**
- * Storage for data that needs to be accessed from various compoentns.
- */
-const store = new Vuex.Store({
-  state: {
+export const getDefaultState = () => {
+  return {
     filter: null, // Username to filter shown freets by (null = show all)
     freets: [], // All freets created in the app
     username: null, // Username of the logged in user
     alerts: {}, // global success/error messages encountered during submissions to non-visible forms
     quickAccess: [], // Quick access list for the logged in user
     votes: {freet: new Set(), comment: new Set()}, // Upvotes/downvotes for freets and comments
-  },
+  }
+};
+
+/**
+ * Storage for data that needs to be accessed from various compoentns.
+ */
+const store = new Vuex.Store({
+  state: getDefaultState(),
   mutations: {
     alert(state, payload) {
       /**
@@ -51,7 +55,7 @@ const store = new Vuex.Store({
       /**
        * Request the server for the currently available freets.
        */
-      const url = state.filter ? `/api/users/${state.filter}/freets` : '/api/freets';
+      const url = state.filter ? `/api/freets?author=${state.filter}` : '/api/freets';
       const res = await fetch(url).then(async r => r.json());
       state.freets = res;
     },
@@ -61,6 +65,16 @@ const store = new Vuex.Store({
        * @param quickAccess - Quick access to store
        */
       state.quickAccess = quickAccess;
+    },
+    refreshQuickAccess(state) {
+      fetch("/api/quickaccess", {
+        credentials: "same-origin", // Sends express-session credentials with request
+      })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+        state.quickAccess = res.quickAccess.entries;
+      });
     },
     setVotes(state, upvotes) {
       state.votes = {
