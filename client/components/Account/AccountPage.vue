@@ -3,20 +3,23 @@
 
 <template>
   <main>
-    <section>
-      <header>
-        <h2>Account settings for @{{ $store.state.username }}</h2>
-      </header>
-      <ChangeUsernameForm />
-      <ChangePasswordForm />
-    </section>
-    <section>
-      <header>
-        <h2>Account management</h2>
-      </header>
-      <LogoutForm />
-      <DeleteAccountForm />
-    </section>
+    <div class="center-view">
+      <section>
+        <header>
+          <h2>Account settings for @{{ $store.state.username }}</h2>
+        </header>
+        <ChangeUsernameForm />
+        <ChangePasswordForm />
+      </section>
+      <section>
+        <header>
+          <h2>Account management</h2>
+        </header>
+        <LogoutForm />
+        <DeleteAccountForm />
+      </section>
+    </div>
+    <RightSidebar class="right-sidebar" />
   </main>
 </template>
 
@@ -25,6 +28,7 @@ import ChangeUsernameForm from "@/components/Account/ChangeUsernameForm.vue";
 import ChangePasswordForm from "@/components/Account/ChangePasswordForm.vue";
 import DeleteAccountForm from "@/components/Account/DeleteAccountForm.vue";
 import LogoutForm from "@/components/Account/LogoutForm.vue";
+import RightSidebar from "@/components/common/RightSidebar.vue";
 
 export default {
   name: "AccountPage",
@@ -33,6 +37,20 @@ export default {
     ChangePasswordForm,
     DeleteAccountForm,
     LogoutForm,
+    RightSidebar
   },
 };
 </script>
+
+<style scoped>
+main {
+  display: flex;
+}
+.center-view {
+  flex: 2;
+}
+.right-sidebar {
+  flex: 1;
+}
+
+</style>

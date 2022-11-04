@@ -4,7 +4,7 @@
 <template>
   <article class="freet">
     <header>
-      <h3 class="author"><a :href="'/#/user/' + freet.author">@{{ freet.author }}</a></h3>
+      <Username class="author" :username="freet.author" />
       <div v-if="$store.state.username === freet.author" class="actions">
         <button v-if="editing" @click="submitEdit">✅ Save changes</button>
         <button v-if="editing" @click="stopEditing">🚫 Discard changes</button>
@@ -32,7 +32,7 @@
       <Vote :item="freet" :model="'freet'" />
     </p>
     <p class="comments">
-      <a :href="'/#/freet/' + freet.id"><button>Comments</button></a>
+      <router-link :to="`/freet/${freet.id}`"><button>Comments</button></router-link>
     </p>
     <p class="info">
       <span v-if="freet.dateModified === freet.dateCreated">Posted</span>
@@ -54,11 +54,12 @@
 
 <script>
 import Vote from "@/components/Vote/Vote.vue";
+import Username from "@/components/Account/Username.vue";
 
 export default {
   name: "FreetComponent",
   components: {
-    Vote,
+    Vote, Username
   },
   props: {
     // Data from the stored freet
@@ -165,6 +166,7 @@ export default {
 
 <style scoped>
 .freet {
+  background-color: white;
   border: 1px solid #111;
   padding: 20px;
   border-radius: 10px;

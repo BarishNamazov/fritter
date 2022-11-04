@@ -4,31 +4,38 @@
       <img src="../../public/logo.svg" />
       <h1 class="title">Fritter</h1>
     </header>
-    <button v-if="!editing" @click="startEditing">✏️ Edit</button>
-    <button v-if="editing" @click="saveEdits">Save</button>
-    <button v-if="editing" @click="addEntry">Add</button>
-    <draggable
-      v-if="form.length"
-      v-bind="dragOptions"
-      handle=".handle"
-      @start="drag=true"
-      @end="drag=false"
-    >
-      <!--eslint-disable-next-line vue/no-use-v-if-with-v-for -->
-      <article v-for="{ name, url } in form" v-if="!editing" :key="name" class="quick-access-entry">
-        <a :href="url">{{ name }}</a>
+    <div class="qa" v-if="$store.state.username">
+      <button v-if="!editing" @click="startEditing">✏️ Edit</button>
+      <button v-if="editing" @click="saveEdits">Save</button>
+      <button v-if="editing" @click="addEntry">Add</button>
+      <draggable
+        v-if="form.length"
+        v-bind="dragOptions"
+        handle=".handle"
+        @start="drag=true"
+        @end="drag=false"
+      >
+        <!--eslint-disable-next-line vue/no-use-v-if-with-v-for -->
+        <article v-for="{ name, url } in form" v-if="!editing" :key="name" class="quick-access-entry">
+          <a :href="url"><span>{{ name }}</span></a>
+        </article>
+        <!-- eslint-disable-next-line vue/no-use-v-if-with-v-for -->
+        <article v-for="({name, url}, index) in form" v-if="editing" :key="name + '-' + index" class="quick-access-entry-input">
+          <span class="handle">X</span>
+          <input :value="name" class="name" />
+          <input :value="url" class="url" />
+          <button v-if="editing" @click="deleteEntry">Delete</button>
+        </article>
+      </draggable>
+      <article v-else>
+        <p>No quick access found.</p>
       </article>
-      <!-- eslint-disable-next-line vue/no-use-v-if-with-v-for -->
-      <article v-for="({name, url}, index) in form" v-if="editing" :key="name + '-' + index" class="quick-access-entry-input">
-        <span class="handle">X</span>
-        <input :value="name" class="name" />
-        <input :value="url" class="url" />
-        <button v-if="editing" @click="deleteEntry">Delete</button>
+    </div>
+    <div class="qa" v-else>
+      <article class="quick-access-entry">
+        <a :href="'/#/'"><span>Home</span></a>
       </article>
-    </draggable>
-    <article v-else>
-      <p>No quick access found.</p>
-    </article>
+    </div>
   </section>
 </template>
 
@@ -125,8 +132,11 @@ export default {
 
 <style scoped>
 section {
-  margin: 1em 0;
   padding: 1em;
+}
+
+.qa {
+  margin-top: 1em;
 }
 
 button {
@@ -135,18 +145,29 @@ button {
 }
 
 .quick-access-entry {
-  border: 1px solid #ccc;
-  padding: 0.3em;
-  border-radius: 3px;
+  font-size: 1.5em;
+  border-radius: 5px;
+  margin-left: 1.8em;
+}
+
+a {
+  color: inherit;
+  display: inline-block;
+  text-decoration: none;
+  width: 100%;
+}
+
+a span {
+  padding: 0.2em;
+}
+
+a:hover span {
+  background-color: var(--hover-color);
+  border-radius: 5px;
 }
 
 .quick-access-entry:not(:last-child) {
-  margin-bottom: 0.5em;
-}
-
-.quick-access-entry > a {
-  color: #000;
-  text-decoration: underline;
+  margin-bottom: 1em;
 }
 
 .handle {
@@ -162,6 +183,7 @@ button {
 
 img {
   height: 2em;
+  width: 2em;
 }
 
 .title {

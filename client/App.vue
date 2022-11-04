@@ -1,11 +1,10 @@
 <template>
   <div id="app">
     <div class="view-container">
-      <section v-if="$store.state.username" class="left-view">
+      <section class="left-view">
         <QuickAccess />
       </section>
-      <router-view class="center-view" />
-      <div id="PLACEHOLDER-FOR-NOW" class="right-view"></div>
+      <router-view class="rest-view" />
     </div>
   </div>
 </template>
@@ -37,15 +36,19 @@ export default {
   box-sizing: border-box;
   --upvote-color: #00b300;
   --downvote-color: #ff0000;
+  --hover-color: #dee2e6;
+  --username-border-color: #1864ab;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
 body {
+  background-color: #e7f5ff;
+  width: 80vw;
   height: 100vh;
   flex-direction: column;
   display: flex;
   padding: 0;
-  margin: 0;
+  margin: 0 auto;
   font-family: Lato, sans-serif;
 }
 
@@ -59,13 +62,9 @@ body {
   top: 0;
   height: max-content;
 }
-.center-view {
-  flex: 2;
+.rest-view {
+  flex: 3;
 }
-.right-view {
-  flex: 1;
-}
-
 
 
 
