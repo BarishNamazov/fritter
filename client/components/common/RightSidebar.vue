@@ -9,7 +9,12 @@
     </router-link>
   </section>
   <section v-else>
-    <router-link to="/login">Login</router-link>
+    <router-link class="account" to="/login">
+      <span>
+        <img src="https://www.svgrepo.com/show/219383/login.svg" />
+        <span>Login</span>
+      </span>
+    </router-link>
   </section>
 </template>
 

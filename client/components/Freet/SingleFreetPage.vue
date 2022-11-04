@@ -1,16 +1,20 @@
 <template>
   <main>
-    <FreetComponent v-if="freet" :freet="freet" />
+    <section class="center-view">
+      <FreetComponent v-if="freet"  :freet="freet" />
+    </section>
+    <RightSidebar class="right-sidebar" />
   </main>
 </template>
 
 <script>
 import FreetComponent from "@/components/Freet/FreetComponent.vue";
+import RightSidebar from "@/components/common/RightSidebar.vue";
 
 export default {
   name: "SingleFreetPage",
   components: {
-    FreetComponent,
+    FreetComponent, RightSidebar
   },
   data() {
     return {
@@ -33,3 +37,19 @@ export default {
 };
 
 </script>
+
+<style scoped>
+main {
+  display: flex;
+}
+.center-view {
+  flex: 2;
+}
+.right-sidebar {
+  flex: 1;
+}
+
+.center-view {
+  padding: 1em;
+}
+</style>
