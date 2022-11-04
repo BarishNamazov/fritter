@@ -1,22 +1,21 @@
 <template>
   <div id="app">
-    <header>
-      <NavBar />
-    </header>
-    <section v-if="$store.state.username">
-      <QuickAccess />
-    </section>
-    <router-view />
+    <div class="view-container">
+      <section v-if="$store.state.username" class="left-view">
+        <QuickAccess />
+      </section>
+      <router-view class="center-view" />
+      <div id="PLACEHOLDER-FOR-NOW" class="right-view"></div>
+    </div>
   </div>
 </template>
 
 <script>
-import NavBar from "@/components/common/NavBar.vue";
 import QuickAccess from "@/components/QuickAccess/QuickAccess.vue";
 
 export default {
   name: "App",
-  components: { NavBar, QuickAccess },
+  components: { QuickAccess },
   beforeCreate() {
     // Sync stored username to current session
     fetch("/api/users/session", {
@@ -49,6 +48,26 @@ body {
   margin: 0;
   font-family: Lato, sans-serif;
 }
+
+.view-container {
+  display: flex;
+}
+
+.left-view {
+  flex: 1;
+  position: sticky;
+  top: 0;
+  height: max-content;
+}
+.center-view {
+  flex: 2;
+}
+.right-view {
+  flex: 1;
+}
+
+
+
 
 main {
   padding: 0 5em 5em;

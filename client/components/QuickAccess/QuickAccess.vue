@@ -1,5 +1,9 @@
 <template>
   <section>
+    <header class="fritter">
+      <img src="../../public/logo.svg" />
+      <h1 class="title">Fritter</h1>
+    </header>
     <button v-if="!editing" @click="startEditing">✏️ Edit</button>
     <button v-if="editing" @click="saveEdits">Save</button>
     <button v-if="editing" @click="addEntry">Add</button>
@@ -122,6 +126,7 @@ export default {
 <style scoped>
 section {
   margin: 1em 0;
+  padding: 1em;
 }
 
 button {
@@ -147,5 +152,20 @@ button {
 .handle {
   cursor: move;
   margin-right: 0.5em;
+}
+
+.fritter {
+  display: flex;
+  /* justify-content: space-between; */
+  align-items: center;
+}
+
+img {
+  height: 2em;
+}
+
+.title {
+  font-size: 2em;
+  margin: 0 5px;
 }
 </style>

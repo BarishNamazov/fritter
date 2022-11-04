@@ -29,14 +29,6 @@
             </span>
           </h2>
         </div>
-        <div class="right">
-          <GetFreetsForm
-            ref="getFreetsForm"
-            value="author"
-            placeholder="🔍 Filter by author (optional)"
-            button="🔄 Get freets"
-          />
-        </div>
       </header>
       <section v-if="$store.state.freets.length">
         <FreetComponent
@@ -55,15 +47,26 @@
 <script>
 import FreetComponent from "@/components/Freet/FreetComponent.vue";
 import CreateFreetForm from "@/components/Freet/CreateFreetForm.vue";
-import GetFreetsForm from "@/components/Freet/GetFreetsForm.vue";
 
 export default {
   name: "FreetPage",
-  components: { FreetComponent, GetFreetsForm, CreateFreetForm },
+  components: { FreetComponent, CreateFreetForm },
+  watch: {
+    "$route": function() {
+      console.log(this.$route.params.username);
+      this.$store.commit("updateFilter", this.$route.params.username);
+    },
+    "$store.state.filter": function() {
+      this.$store.commit("refreshFreets");
+    }
+  },
   mounted() {
-    this.$refs.getFreetsForm.submit();
+    this.$store.commit("refreshFreets");
     this.$store.commit("initVotes");
-    console.log("votes", JSON.stringify(this.$store.state.votes));
+  },
+  updated() {
+    console.log("got updatedd");
+    this.$store.commit("updateFilter", this.$route.params.username);
   }
 };
 </script>

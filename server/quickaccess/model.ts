@@ -27,7 +27,7 @@ const QuickAccessSchema = new Schema({
     }],
     _id: false,
     required: true,
-    default: [{name: 'Fritter Home', url: 'fritter.com'}]
+    default: [{name: 'Home', url: '/'}]
   },
   dateUpdated: {
     type: Date,

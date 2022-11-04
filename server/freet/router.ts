@@ -70,6 +70,7 @@ router.get(
       res.status(400).json({error: 'Invalid freet ID'});
       return;
     }
+
     const freets = await FreetCollection.findAllVisibleToUser(req.session.userId, {_id: req.params.freetId});
     if (!freets) {
       res.status(404).json({error: 'Freet not found.'});
