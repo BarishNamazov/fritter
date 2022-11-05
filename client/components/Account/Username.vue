@@ -1,11 +1,12 @@
 <template>
   <router-link class="container" :to="`/user/${username}`">
     <!-- <img :src="`https://robohash.org/${username}?set=set4`" /> -->
-    <span class="avatar" :style="{backgroundColor: genProperties.shapeColor}">
+    <span v-if="username !== '[comment deleted]'" class="avatar" :style="{backgroundColor: genProperties.shapeColor}">
       <BigHead v-if="genProperties" shape="circle" 
           :accessory="genProperties.accessory" :body="genProperties.body" :clothing="genProperties.clothing" :clothingColor="genProperties.clothingColor" :eyebrows="genProperties.eyebrows" :eyes="genProperties.eyes" :facialHair="genProperties.facialHair" :facialHairColor="genProperties.facialHairColor" :graphic="genProperties.graphic" :hair="genProperties.hair" :hairColor="genProperties.hairColor" :hat="genProperties.hat" :hatColor="genProperties.hatColor" :lashes="genProperties.lashes" :lipColor="genProperties.lipColor" :mouth="genProperties.mouth" :shapeColor="genProperties.shapeColor" :skinTone="genProperties.skinTone"
       />
     </span>
+    <span v-else><img src="https://www.svgrepo.com/show/192510/trash.svg" /> </span>
     <span>{{ username }}</span>
   </router-link>
 </template>
@@ -69,7 +70,7 @@ export default {
   gap: 0.5em;
 }
 
-.avatar, svg {
+.avatar, svg, img {
   /* border: 1px solid black; */
   /* border-radius: 50%; */
   height: 3em;

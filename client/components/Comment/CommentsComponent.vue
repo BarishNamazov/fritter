@@ -13,7 +13,7 @@
         <div class="comment-actions">
           <Vote :model="'comment'" :item="item" />
           <button @click="$set(showReply, item.id, true)">Reply</button>
-          <button @click="deleteComment(item.id)">Delete</button>
+          <button v-if="item.author === $store.state.username" @click="deleteComment(item.id)">Delete</button>
         </div>
       </article>
       <div v-if="showReply[item.id]" class="comment-reply">
@@ -62,6 +62,8 @@ export default {
         this.$set(this.showReply, id, false);
         this.$set(this.reply, id, '');
         this.$emit('refresh');
+      }).catch((e) => {
+        alert("Error: " + e);
       });
     },
     deleteComment(id) {
@@ -70,6 +72,8 @@ export default {
         method: 'DELETE',
       }).then(() => {
         this.$emit('refresh');
+      }).catch((e) => {
+        alert("Error: " + e);
       });
     },
     async request(params) {
@@ -80,7 +84,14 @@ export default {
       if (params.body) {
         options.body = JSON.stringify(params.body);
       }
-      return fetch(params.url, options);
+      return fetch(params.url, options).then(res => res.json()).then(res => {
+        if (res.error) {
+          alert(res.error);
+        }
+        return res;
+      }).catch(e => {
+        alert(e);
+      });
     }
   }
 }
