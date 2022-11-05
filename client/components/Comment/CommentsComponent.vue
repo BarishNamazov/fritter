@@ -12,9 +12,18 @@
         </div>
         <div class="comment-actions">
           <Vote :model="'comment'" :item="item" />
+          <button @click="$set(showReply, item.id, true)">Reply</button>
+          <button @click="deleteComment(item.id)">Delete</button>
         </div>
       </article>
-      <CommentsComponent v-if="item.id in comments" :parentId="item.id" :comments="comments" />
+      <div v-if="showReply[item.id]" class="comment-reply">
+        <ul><li>
+          <textarea v-model="reply[item.id]" spellcheck="false"></textarea>
+          <button @click="replyToComment(item.id, reply[item.id])">Submit</button>
+          <button @click="$set(showReply, item.id, false)">Cancel</button>
+        </li></ul>
+      </div>
+      <CommentsComponent @refresh="$emit('refresh')" v-if="item.id in comments" :parentId="item.id" :comments="comments" />
     </li>
   </ul>
 </template>
@@ -37,6 +46,43 @@ export default {
       required: true,
     }
   },
+  data() {
+    return {
+      showReply: {},
+      reply: {},
+    }
+  },
+  methods: {
+    replyToComment(id, content) {
+      this.request({
+        url: `/api/comments/oncomment/${id}`,
+        method: 'POST',
+        body: {content}
+      }).then(() => {
+        this.$set(this.showReply, id, false);
+        this.$set(this.reply, id, '');
+        this.$emit('refresh');
+      });
+    },
+    deleteComment(id) {
+      this.request({
+        url: `/api/comments/${id}`,
+        method: 'DELETE',
+      }).then(() => {
+        this.$emit('refresh');
+      });
+    },
+    async request(params) {
+      const options = {
+        method: params.method,
+        headers: { "Content-Type": "application/json" },
+      };
+      if (params.body) {
+        options.body = JSON.stringify(params.body);
+      }
+      return fetch(params.url, options);
+    }
+  }
 }
 </script>
 
@@ -59,7 +105,7 @@ li {
   border-radius: var(--border-radius-large);
   margin-bottom: 0.5em;
 }
-.comment-meta {
+.comment-meta, .comment-actions {
   display: flex;
   gap: 0.5em;
   align-items: center;

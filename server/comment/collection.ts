@@ -31,7 +31,7 @@ class CommentCollection {
   }
 
   static async findAll(filter: Record<string, any> = {}): Promise<Array<HydratedDocument<Comment>>> {
-    return CommentModel.find(filter).sort({dateModified: -1}).populate(['authorId', 'freetId', 'numUpvotes', 'numDownvotes']);
+    return CommentModel.find(filter).sort({dateModified: 1}).populate(['authorId', 'freetId', 'numUpvotes', 'numDownvotes']);
   }
 
   static async findAllVisibleToUser(userId: MongoId, filter: Record<string, any> = {}): Promise<Array<HydratedDocument<Comment>>> {
