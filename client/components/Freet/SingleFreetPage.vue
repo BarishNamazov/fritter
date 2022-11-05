@@ -1,7 +1,7 @@
 <template>
   <main>
     <section class="center-view">
-      <FreetComponent v-if="freet" :freet="freet" />
+      <FreetComponent v-if="freet" :freet="freet" :commentsCount="commentsCount" />
       <div v-if="freet" class="comments">
         <CommentsComponent :comments="comments" :parentId="freet.id" />
       </div>
@@ -23,6 +23,7 @@ export default {
   data() {
     return {
       freet: null,
+      commentsCount: null,
       comments: {},
     };
   },
@@ -54,6 +55,8 @@ export default {
             comments[par] = [comment];
           }
         }
+        this.commentsCount = data.length;
+        console.log("yoooo", this.commentsCount)
         this.comments = comments;
 
         // this.comments = {

@@ -4,13 +4,23 @@
 <template>
   <article class="freet">
     <header>
-      <Username class="author" :username="freet.author" />
-      <div v-if="$store.state.username === freet.author" class="actions">
+      <div class="freet-meta">
+        <Username class="author" :username="freet.author" />
+        <span>•</span>
+        <span class="freet-date">{{ freet.dateModified }} 
+          <span v-if="freet.dateCreated !== freet.dateModified" class="italic"> (edited) </span>
+        </span>
+        <span>•</span>
+        <span class="freet-visibility">{{ freet.visibility }}</span>
+      </div>
+      
+      <!-- TODO Deal with this in options later -->
+      <!-- <div v-if="$store.state.username === freet.author" class="actions">
         <button v-if="editing" @click="submitEdit">✅ Save changes</button>
         <button v-if="editing" @click="stopEditing">🚫 Discard changes</button>
         <button v-if="!editing" @click="startEditing">✏️ Edit</button>
         <button @click="deleteFreet">🗑️ Delete</button>
-      </div>
+      </div> -->
     </header>
     <div v-if="editing">
       <textarea
@@ -23,23 +33,18 @@
       <input v-model="visibility" type="radio" name="only me" :value="'only me'" /><label for="only me">Only me</label>
     </div>
     <div v-else>
-      <p class="visibility"> visibility: {{ freet.visibility }} </p>
       <p class="content">
         {{ freet.content }}
       </p>
     </div>
-    <p class="votes">
-      <Vote :item="freet" :model="'freet'" />
-    </p>
-    <p class="comments">
-      <router-link :to="`/freet/${freet.id}`"><button>Comments</button></router-link>
-    </p>
-    <p class="info">
-      <span v-if="freet.dateModified === freet.dateCreated">Posted</span>
-      <span v-else>Updated</span> 
-      at {{ freet.dateModified }}
-      <i v-if="freet.dateModified !== freet.dateCreated">(edited)</i>
-    </p>
+    <div class="freet-actions">
+      <Vote class="freet-votes" :item="freet" :model="'freet'" />
+      <router-link class="freet-comments" :to="`/freet/${freet.id}`">
+        <span v-if="commentsCount !== null">{{ commentsCount }}</span>
+        <svg class="comment-logo" v-html="commentSvg" />
+      </router-link>
+      <span class="freet-options"><img src="https://www.svgrepo.com/show/327453/options.svg" /></span>
+    </div>
     <section class="alerts">
       <article
         v-for="(status, alert, index) in alerts"
@@ -56,6 +61,9 @@
 import Vote from "@/components/Vote/Vote.vue";
 import Username from "@/components/Account/Username.vue";
 
+const commentSvg = `<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 11h10M7 14h4m3.828 4H19a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h3.188c1 0 1.812.811 1.812 1.812v0c0 .808.976 1.212 1.547.641l1.867-1.867A2 2 0 0 1 14.828 18z"/>`;
+const optionsSvg = `<path d="M64,144H290.75a48,48,0,0,0,90.5,0H448a16,16,0,0,0,0-32H381.25a48,48,0,0,0-90.5,0H64a16,16,0,0,0,0,32Z"/><path d="M448,368H381.25a48,48,0,0,0-90.5,0H64a16,16,0,0,0,0,32H290.75a48,48,0,0,0,90.5,0H448a16,16,0,0,0,0-32Z"/><path d="M448,240H221.25a48,48,0,0,0-90.5,0H64a16,16,0,0,0,0,32h66.75a48,48,0,0,0,90.5,0H448a16,16,0,0,0,0-32Z"/>`;
+
 export default {
   name: "FreetComponent",
   components: {
@@ -67,6 +75,10 @@ export default {
       type: Object,
       required: true,
     },
+    commentsCount: {
+      type: Number,
+      default: null
+    },
   },
   data() {
     return {
@@ -74,6 +86,8 @@ export default {
       draft: this.freet.content, // Potentially-new content for this freet
       visibility: this.freet.visibility,
       alerts: {}, // Displays success/error messages encountered during freet modification
+      commentSvg,
+      optionsSvg
     };
   },
   methods: {
@@ -171,5 +185,58 @@ export default {
   padding: 20px;
   border-radius: var(--border-radius-large);
   position: relative;
+}
+
+.freet-meta, .freet-comments, .freet-actions {
+  display: flex;
+  align-items: center;
+}
+.freet-actions {
+  justify-content: space-between;
+}
+
+.freet-meta {
+  gap: 0.5em;
+}
+
+.freet-comments {
+  text-decoration: none;
+  gap: 0.3em;
+  padding: 0.5em;
+  color: inherit;
+}
+
+.freet-comments svg {
+  color: white;
+}
+
+.freet-options {
+  padding: 0.5em;
+}
+
+.freet-comments:hover, .freet-options:hover {
+  background-color: var(--hover-color);
+  border-radius: var(--border-radius-large);
+  cursor: pointer;
+}
+
+.freet-actions {
+  align-items: center;
+  gap: 2em;
+}
+
+img, svg {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.freet-votes, .freet-comments, .freet-options {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.italic {
+  font-style: italic;
 }
 </style>

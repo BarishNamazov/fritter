@@ -1,13 +1,16 @@
 <template>
   <span class="container">
-    <svg class="upvote" :class="{active: vote === 'upvote'}" v-html="vote === 'upvote' ? filledUpvoteSvg : upvoteSvg" @click="() => handleVote('upvote')"></svg>
+    <span class="vote upvote" @click="() => handleVote('upvote')">
+      <svg :class="{active: vote === 'upvote'}" v-html="vote === 'upvote' ? filledUpvoteSvg : upvoteSvg" />
+    </span>
     <span>{{ votes }}</span>
-    <svg class="downvote" :class="{active: vote === 'downvote'}" v-html="vote === 'downvote' ? filledUpvoteSvg : upvoteSvg" @click="() => handleVote('downvote')"></svg>
+    <span class="vote downvote" @click="() => handleVote('downvote')">
+      <svg :class="{active: vote === 'downvote'}" v-html="vote === 'downvote' ? filledUpvoteSvg : upvoteSvg" />
+    </span>
   </span>  
 </template>
 
 <script>
-import { mapState } from 'vuex'
 
 const upvoteSvg = `<path fill="currentColor" d="M12.781 2.375c-.381-.475-1.181-.475-1.562 0l-8 10A1.001 1.001 0 0 0 4 14h4v7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7h4a1.001 1.001 0 0 0 .781-1.625l-8-10zM15 12h-1v8h-4v-8H6.081L12 4.601 17.919 12H15z"/>`;
 const filledUpvoteSvg = `<path fill="currentColor" d="M4 14h4v7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7h4a1.001 1.001 0 0 0 .781-1.625l-8-10c-.381-.475-1.181-.475-1.562 0l-8 10A1.001 1.001 0 0 0 4 14z"/>`;
@@ -116,32 +119,37 @@ export default {
 .container {
   display: flex;
   align-items: center;
-  gap: 0.2em;
+  gap: 0.4em;
+}
+
+.vote {
+  padding: 0.5em;
+  display: flex;
 }
 
 svg {
-  width: 24px;
-  height: 24px;
+  width: 1.5em;
+  height: 1.5em;
 }
 
-svg:hover {
+.vote:hover {
   background-color: var(--hover-color);
   cursor: pointer;
-  border-radius: 40%;
+  border-radius: 50%;
 }
 
-svg.upvote:hover, svg.upvote.active {
+.vote.upvote:hover, .upvote svg.active {
   color: var(--upvote-color);
 }
-svg.downvote:hover, svg.downvote.active {
+.vote.downvote:hover, .downvote svg.active {
   color: var(--downvote-color);
 }
 
-svg.downvote:active {
+.vote.downvote:active {
   position: relative;
   top: 1px;
 }
-svg.upvote:active {
+.vote.upvote:active {
   position: relative;
   top: -1px;
 }
