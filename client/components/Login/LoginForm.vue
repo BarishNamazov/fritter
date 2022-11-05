@@ -24,6 +24,7 @@ export default {
           status: "success",
         });
         this.$store.commit("initVotes");
+        this.$store.commit("refreshQuickAccess");
       },
     };
   },

@@ -36,7 +36,11 @@ class CommentCollection {
 
   static async findAllVisibleToUser(userId: MongoId, filter: Record<string, any> = {}): Promise<Array<HydratedDocument<Comment>>> {
     const freets = await FreetCollection.findAllVisibleToUser(userId);
-    const freetIds = freets.map(freet => freet._id);
+    let freetIds = freets.map(freet => freet._id);
+    if (filter.freetId) {
+      freetIds = freetIds.filter(freetId => freetId.toString() === (filter.freetId as string));
+    }
+
     return CommentCollection.findAll({...filter, freetId: {$in: freetIds}});
   }
 

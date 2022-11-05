@@ -115,7 +115,8 @@ const _canUserViewFreet = async (userId: string, freetId: string) => {
 };
 
 const isFreetViewAllowed = async (req: Request, res: Response, next: NextFunction) => {
-  const freet = await FreetCollection.findOne(req.params.freetId);
+  const freetId = req.params.freetId || req.query.freetId;
+  const freet = await FreetCollection.findOne(freetId as string);
 
   if (await _canUserViewFreet(req.session.userId as string, freet._id.toString())) {
     next();

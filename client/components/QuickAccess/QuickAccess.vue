@@ -146,7 +146,7 @@ button {
 
 .quick-access-entry {
   font-size: 1.5em;
-  border-radius: 5px;
+  border-radius: var(--border-radius-large);
   margin-left: 1.8em;
 }
 
@@ -158,12 +158,12 @@ a {
 }
 
 a span {
-  padding: 0.2em;
+  padding: 0.5em;
 }
 
 a:hover span {
   background-color: var(--hover-color);
-  border-radius: 5px;
+  border-radius: var(--border-radius-large);
 }
 
 .quick-access-entry:not(:last-child) {

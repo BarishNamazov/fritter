@@ -47,7 +47,7 @@ section {
   font-size: 1.5em;
   font-weight: bold;
   border: 1px solid var(--username-border-color);
-  border-radius: 5px;
+  border-radius: var(--border-radius-large);
 }
 
 .account {

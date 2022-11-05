@@ -58,7 +58,7 @@ export default {
 form {
   background-color: #fff;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: var(--border-radius-large);
   padding: 10px;
   margin: 10px 0;
 }
@@ -67,7 +67,7 @@ form {
   width: 100%;
   height: 100px;
   border: 1px solid black;
-  border-radius: 5px;
+  border-radius: var(--border-radius-small);
   font: inherit;
   outline: none;
   padding: 5px;
@@ -84,7 +84,7 @@ form {
   width: 100%;
   height: 30px;
   border: 1px solid black;
-  border-radius: 5px;
+  border-radius: var(--border-radius-large);
   font: inherit;
   outline: none;
   padding: 5px;

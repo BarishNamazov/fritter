@@ -7,6 +7,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 const upvoteSvg = `<path fill="currentColor" d="M12.781 2.375c-.381-.475-1.181-.475-1.562 0l-8 10A1.001 1.001 0 0 0 4 14h4v7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7h4a1.001 1.001 0 0 0 .781-1.625l-8-10zM15 12h-1v8h-4v-8H6.081L12 4.601 17.919 12H15z"/>`;
 const filledUpvoteSvg = `<path fill="currentColor" d="M4 14h4v7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7h4a1.001 1.001 0 0 0 .781-1.625l-8-10c-.381-.475-1.181-.475-1.562 0l-8 10A1.001 1.001 0 0 0 4 14z"/>`;
 
@@ -26,27 +28,31 @@ export default {
     return {
       upvoteSvg,
       filledUpvoteSvg,
-      vote: null,
+      // vote: null,
+      id: this.item.id,
+      upvotes: this.item.numUpvotes,
+      downvotes: this.item.numDownvotes,
+      toggle: false,
     };
   },
   computed: {
-    id: function() {
-      return this.item.id;
-    },
-    upvotes: function() {
-      return this.item.numUpvotes;
-    },
-    downvotes: function() {
-      return this.item.numDownvotes;
+    vote() {
+      this.toggle;
+      console.log("hi", this.$store.state.votes[this.model][this.id]);
+      return this.$store.state.votes[this.model][this.id];
     },
     votes: function() {
-      return this.upvotes - this.downvotes;
+      return this.item.numUpvotes - this.item.numDownvotes;
     }
   },
   watch: {
-    "$store.state.votes": function() {
-      this.vote = this.$store.state.votes[this.model][this.id];
-    }
+    // "$store.state.votes": function() {
+    //   this.vote = this.$store.state.votes[this.model][this.id];
+    // },
+    // voteX: function() {
+    //   console.log("hey there", this.voteX);
+    //   this.vote = this.voteX;
+    // }
   },
   methods: {
     resetVote() {
@@ -74,10 +80,12 @@ export default {
           return;
         }
         this.resetVote();
-        this.vote = vote;
+        // this.vote = vote;
         this.$store.commit("voteModel", { model: this.model, id: this.id, vote });
+        console.log("store has", this.$store.state.votes[this.model][this.id]);
         if (vote === 'upvote') this.item.numUpvotes += 1;
         else this.item.numDownvotes += 1;
+        this.toggle = !this.toggle;
       });
     },
     handleUnvote() {
@@ -93,8 +101,9 @@ export default {
         }
         if (this.vote === 'upvote') this.item.numUpvotes -= 1;
         else this.item.numDownvotes -= 1;
-        this.vote = undefined;
         this.$store.commit("unvoteModel", { model: this.model, id: this.id });
+        console.log("unvoted", this.$store.state.votes[this.model][this.id]);
+        this.toggle = !this.toggle;
       });
     }
   },
@@ -116,7 +125,7 @@ svg {
 }
 
 svg:hover {
-  background-color: #dee2e6;
+  background-color: var(--hover-color);
   cursor: pointer;
   border-radius: 40%;
 }

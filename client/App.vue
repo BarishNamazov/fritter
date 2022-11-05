@@ -34,10 +34,15 @@ export default {
 <style>
 * {
   box-sizing: border-box;
+  --border-radius-small: 0.5em;
+  --border-radius-medium: 1em;
+  --border-radius-large: 1.5em;
+
   --upvote-color: #00b300;
   --downvote-color: #ff0000;
   --hover-color: #dee2e6;
   --username-border-color: #1864ab;
+  --comment-background-color: #96f2d7;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');

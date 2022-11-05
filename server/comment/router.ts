@@ -33,9 +33,10 @@ router.get(
   },
   [
     userValidator.isAuthorExists,
-    freetValidator.isFreetExistsQuery
+    freetValidator.isFreetExistsQuery,
+    freetValidator.isFreetViewAllowed
   ],
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: Request, res: Response) => {
     const author = await UserCollection.findOneByUsername(req.query.author as string);
     const authorComments = await CommentCollection.findAllVisibleToUser(req.session.userId, {authorId: author._id, freetId: req.query.freetId});
     const response = authorComments.map(util.constructCommentResponse);

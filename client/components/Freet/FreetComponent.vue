@@ -169,7 +169,7 @@ export default {
   background-color: white;
   border: 1px solid #111;
   padding: 20px;
-  border-radius: 10px;
+  border-radius: var(--border-radius-large);
   position: relative;
 }
 </style>

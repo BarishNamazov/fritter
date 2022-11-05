@@ -116,7 +116,7 @@ router.put(
 );
 
 router.delete(
-  '/freet/:commentId',
+  '/comment/:commentId',
   [
     userValidator.isUserLoggedIn,
     commentValidator.isCommentExists,
