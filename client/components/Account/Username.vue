@@ -1,19 +1,62 @@
 <template>
   <router-link class="container" :to="`/user/${username}`">
-    <img :src="`https://robohash.org/${username}?set=set4`" />
+    <!-- <img :src="`https://robohash.org/${username}?set=set4`" /> -->
+    <span class="avatar" :style="{backgroundColor: genProperties.shapeColor}">
+      <BigHead v-if="genProperties" shape="circle" 
+          :accessory="genProperties.accessory" :body="genProperties.body" :clothing="genProperties.clothing" :clothingColor="genProperties.clothingColor" :eyebrows="genProperties.eyebrows" :eyes="genProperties.eyes" :facialHair="genProperties.facialHair" :facialHairColor="genProperties.facialHairColor" :graphic="genProperties.graphic" :hair="genProperties.hair" :hairColor="genProperties.hairColor" :hat="genProperties.hat" :hatColor="genProperties.hatColor" :lashes="genProperties.lashes" :lipColor="genProperties.lipColor" :mouth="genProperties.mouth" :shapeColor="genProperties.shapeColor" :skinTone="genProperties.skinTone"
+      />
+    </span>
     <span>{{ username }}</span>
   </router-link>
 </template>
 
 <script>
+import { properties, BigHead } from "vue-bigheads";
+
+function randomGenerator(seed) {
+  return function () {
+    var x = Math.sin(seed++) * 10000;
+    return x - Math.floor(x);
+  };
+}
+
+const TSH = s=>{for(var i=0,h=9;i<s.length;)h=Math.imul(h^s.charCodeAt(i++),9**9);return h^h>>>9}
+
 export default {
   name: "Username",
+  components: {
+    BigHead,
+  },
   props: {
     username: {
       type: String,
       required: true,
     }
   },
+  data() {
+    return {
+      genProperties: this.getAllProperties()
+    }
+  },
+  computed: {
+    hash: function () {
+      return TSH(this.username);
+    },
+  },
+  methods: {
+    randomProperty: function (obj, random) {
+      var keys = Object.keys(obj);
+      return keys[(keys.length * random()) << 0];
+    },
+    getAllProperties: function () {
+      const res = {};
+      const random = randomGenerator(TSH(this.username))
+      for (const [key, value] of Object.entries(properties)) {
+        res[key] = this.randomProperty(value.map, random);
+      }
+      return res;
+    },
+  }
 }
 </script>
 
@@ -26,10 +69,12 @@ export default {
   gap: 0.5em;
 }
 
-img {
-  border: 1px solid black;
+.avatar, svg {
+  /* border: 1px solid black; */
+  /* border-radius: 50%; */
+  height: 3em;
+  width: 3em;
   border-radius: 50%;
-  height: 2em;
 }
 
 a {
@@ -39,6 +84,6 @@ a {
 
 a:hover {
   background-color: var(--hover-color);
-  border-radius: 5px;
+  border-radius: var(--border-radius-large);
 }
 </style>

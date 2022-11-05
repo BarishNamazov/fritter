@@ -24,6 +24,7 @@
         "nanoid": "^3.3.4",
         "validator": "^13.7.0",
         "vue": "^2.7.13",
+        "vue-bigheads": "^0.2.1",
         "vue-router": "^3.6.5",
         "vuedraggable": "^2.24.3",
         "vuex": "^3.6.2",
