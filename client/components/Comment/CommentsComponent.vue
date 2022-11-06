@@ -5,7 +5,9 @@
         <div class="comment-meta">
           <Username class="username" :username="item.author" />
           <span>•</span>
-          <span class="comment-date">{{ item.dateModified }}</span>
+          <span class="comment-date">{{ relativeDate(item.dateModified) }}
+            <span v-if="item.dateCreated !== item.dateModified" class="italic"> (edited) </span>
+          </span>
         </div>
         <div class="comment-content">
           {{ item.content }}
@@ -35,6 +37,7 @@
 import Username from "@/components/Account/Username.vue";
 import Vote from "@/components/Vote/Vote.vue";
 import CreateCommentBlock from "@/components/Comment/CreateCommentBlock.vue";
+import moment from "moment";
 
 export default {
   name: 'CommentsComponent',
@@ -99,6 +102,9 @@ export default {
       }).catch(e => {
         alert(e);
       });
+    },
+    relativeDate(date) {
+      return moment(date).fromNow();
     }
   }
 }

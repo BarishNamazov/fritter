@@ -6,9 +6,9 @@ import type {Freet, PopulatedFreet} from '../freet/model';
 type FreetResponse = {
   _id: string;
   author: string;
-  dateCreated: string;
+  dateCreated: Date;
   content: string;
-  dateModified: string;
+  dateModified: Date;
   numUpvotes: number;
   numDownvotes: number;
 };
@@ -19,7 +19,7 @@ type FreetResponse = {
  * @param {Date} date - A date object
  * @returns {string} - formatted date as string
  */
-const formatDate = (date: Date): string => moment(date).format('MMMM Do YYYY, h:mm:ss a');
+// const formatDate = (date: Date): string => date.toISOString();
 
 /**
  * Transform a raw Freet object from the database into an object
@@ -42,8 +42,8 @@ const constructFreetResponse = (freet: HydratedDocument<Freet>): FreetResponse =
     ...freetCopy,
     _id: freetCopy._id.toString(),
     author: username,
-    dateCreated: formatDate(freet.dateCreated),
-    dateModified: formatDate(freet.dateModified)
+    dateCreated: freet.dateCreated,
+    dateModified: freet.dateModified
   };
 };
 

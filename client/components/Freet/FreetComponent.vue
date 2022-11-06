@@ -7,7 +7,7 @@
       <div class="freet-meta">
         <Username class="author" :username="freet.author" />
         <span>•</span>
-        <span class="freet-date">{{ freet.dateModified }} 
+        <span class="freet-date">{{ relativeDate(freet.dateModified) }} 
           <span v-if="freet.dateCreated !== freet.dateModified" class="italic"> (edited) </span>
         </span>
         <span>•</span>
@@ -60,6 +60,7 @@
 <script>
 import Vote from "@/components/Vote/Vote.vue";
 import Username from "@/components/Account/Username.vue";
+import moment from "moment";
 
 const commentSvg = `<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 11h10M7 14h4m3.828 4H19a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h3.188c1 0 1.812.811 1.812 1.812v0c0 .808.976 1.212 1.547.641l1.867-1.867A2 2 0 0 1 14.828 18z"/>`;
 const optionsSvg = `<path d="M64,144H290.75a48,48,0,0,0,90.5,0H448a16,16,0,0,0,0-32H381.25a48,48,0,0,0-90.5,0H64a16,16,0,0,0,0,32Z"/><path d="M448,368H381.25a48,48,0,0,0-90.5,0H64a16,16,0,0,0,0,32H290.75a48,48,0,0,0,90.5,0H448a16,16,0,0,0,0-32Z"/><path d="M448,240H221.25a48,48,0,0,0-90.5,0H64a16,16,0,0,0,0,32h66.75a48,48,0,0,0,90.5,0H448a16,16,0,0,0,0-32Z"/>`;
@@ -174,6 +175,9 @@ export default {
         setTimeout(() => this.$delete(this.alerts, e), 3000);
       }
     },
+    relativeDate(date) {
+      return moment(date).fromNow();
+    }
   },
 };
 </script>

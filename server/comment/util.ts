@@ -5,9 +5,9 @@ import type {Comment, PopulatedComment} from './model';
 type CommentResponse = {
   _id: string;
   author: string;
-  dateCreated: string;
+  dateCreated: Date;
   content: string;
-  dateModified: string;
+  dateModified: Date;
   freetId: string;
   numUpvotes: number;
   numDownvotes: number;
@@ -37,8 +37,8 @@ const constructCommentResponse = (comment: HydratedDocument<Comment>): CommentRe
     ...commentCopy,
     author: username,
     _id: commentCopy._id.toString(),
-    dateCreated: formatDate(comment.dateCreated),
-    dateModified: formatDate(comment.dateModified),
+    dateCreated: comment.dateCreated,
+    dateModified: comment.dateModified,
     freetId
   };
 };
