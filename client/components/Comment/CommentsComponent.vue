@@ -18,9 +18,12 @@
       </article>
       <div v-if="showReply[item.id]" class="comment-reply">
         <ul><li>
-          <textarea v-model="reply[item.id]" spellcheck="false"></textarea>
-          <button @click="replyToComment(item.id, reply[item.id])">Submit</button>
-          <button @click="$set(showReply, item.id, false)">Cancel</button>
+          <CreateCommentBlock 
+            :submitCallback="replyToCommentFunction(item.id)"
+            :cancelCallback="() => $set(showReply, item.id, false)"
+            :legend="`Reply to ${item.author}`"
+            :submitName="'Reply'"
+          />
         </li></ul>
       </div>
       <CommentsComponent @refresh="$emit('refresh')" v-if="item.id in comments" :parentId="item.id" :comments="comments" />
@@ -31,11 +34,12 @@
 <script>
 import Username from "@/components/Account/Username.vue";
 import Vote from "@/components/Vote/Vote.vue";
+import CreateCommentBlock from "@/components/Comment/CreateCommentBlock.vue";
 
 export default {
   name: 'CommentsComponent',
   components: {
-    Username, Vote
+    Username, Vote, CreateCommentBlock
   },
   props: {
     comments: {
@@ -53,6 +57,9 @@ export default {
     }
   },
   methods: {
+    replyToCommentFunction(id) {
+      return content => this.replyToComment(id, content);
+    },
     replyToComment(id, content) {
       this.request({
         url: `/api/comments/oncomment/${id}`,
