@@ -1,12 +1,12 @@
 <template>
   <span class="container">
-    <span class="vote upvote" @click="() => handleVote('upvote')">
+    <button class="vote upvote" @click="() => handleVote('upvote')">
       <svg :class="{active: vote === 'upvote'}" v-html="vote === 'upvote' ? filledUpvoteSvg : upvoteSvg" />
-    </span>
+    </button>
     <span>{{ votes }}</span>
-    <span class="vote downvote" @click="() => handleVote('downvote')">
+    <button class="vote downvote" @click="() => handleVote('downvote')">
       <svg :class="{active: vote === 'downvote'}" v-html="vote === 'downvote' ? filledUpvoteSvg : upvoteSvg" />
-    </span>
+    </button>
   </span>  
 </template>
 
@@ -127,11 +127,6 @@ export default {
   display: flex;
 }
 
-svg {
-  width: 1.5em;
-  height: 1.5em;
-}
-
 .vote:hover {
   background-color: var(--hover-color);
   cursor: pointer;
@@ -156,6 +151,17 @@ svg {
 
 .downvote {
   transform: rotate(180deg);
+}
+
+button {
+  border: none;
+  background-color: transparent;
+  font-size: inherit;
+}
+
+svg {
+  width: 1.5em;
+  height: 1.5em;
 }
 
 </style>

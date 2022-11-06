@@ -71,7 +71,9 @@ body {
   flex: 3;
 }
 
-
+img, svg {
+  user-select: none;
+}
 
 main {
   padding: 0 5em 5em;
