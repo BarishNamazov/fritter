@@ -41,21 +41,11 @@ export default {
   computed: {
     vote() {
       this.toggle;
-      console.log("hi", this.$store.state.votes[this.model][this.id]);
       return this.$store.state.votes[this.model][this.id];
     },
     votes: function() {
       return this.item.numUpvotes - this.item.numDownvotes;
     }
-  },
-  watch: {
-    // "$store.state.votes": function() {
-    //   this.vote = this.$store.state.votes[this.model][this.id];
-    // },
-    // voteX: function() {
-    //   console.log("hey there", this.voteX);
-    //   this.vote = this.voteX;
-    // }
   },
   methods: {
     resetVote() {
@@ -85,7 +75,6 @@ export default {
         this.resetVote();
         // this.vote = vote;
         this.$store.commit("voteModel", { model: this.model, id: this.id, vote });
-        console.log("store has", this.$store.state.votes[this.model][this.id]);
         if (vote === 'upvote') this.item.numUpvotes += 1;
         else this.item.numDownvotes += 1;
         this.toggle = !this.toggle;
@@ -105,7 +94,6 @@ export default {
         if (this.vote === 'upvote') this.item.numUpvotes -= 1;
         else this.item.numDownvotes -= 1;
         this.$store.commit("unvoteModel", { model: this.model, id: this.id });
-        console.log("unvoted", this.$store.state.votes[this.model][this.id]);
         this.toggle = !this.toggle;
       });
     }
