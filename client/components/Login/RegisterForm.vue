@@ -22,8 +22,6 @@ export default {
         this.$router.push({ name: "Home" });
         this.$set(this.alerts, message, "success");
         setTimeout(() => this.$delete(this.alerts, message), 3000);
-        this.$store.commit("initVotes");
-        this.$store.commit("refreshQuickAccess");
       },
     };
   },

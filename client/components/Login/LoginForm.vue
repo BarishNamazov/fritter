@@ -68,8 +68,6 @@ export default {
             status: "success",
           });
           this.$store.commit("setUsername", this.username);
-          this.$store.commit("initVotes");
-          this.$store.commit("refreshQuickAccess");
         }).catch(err => {
           alert(err);
         });
