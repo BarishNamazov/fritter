@@ -5,7 +5,7 @@
   <article class="freet">
     <header>
       <div class="freet-meta">
-        <Username class="author" :username="freet.author" />
+        <UsernameComponent class="author" :username="freet.author" />
         <span>•</span>
         <span class="freet-date">{{ relativeDate(freet.dateModified) }} 
           <span v-if="freet.dateCreated !== freet.dateModified" class="italic"> (edited) </span>
@@ -40,7 +40,7 @@
     <div class="freet-actions">
       <Vote class="freet-votes" :item="freet" :model="'freet'" />
       <router-link class="freet-comments" :to="`/freet/${freet.id}`">
-        <span v-if="commentsCount !== null">{{ commentsCount }}</span>
+        <span>{{ freet.numComments }}</span>
         <svg class="comment-logo" v-html="commentSvg" />
       </router-link>
       <span class="freet-options"><img src="https://www.svgrepo.com/show/327453/options.svg" /></span>
@@ -59,7 +59,7 @@
 
 <script>
 import Vote from "@/components/Vote/Vote.vue";
-import Username from "@/components/Account/Username.vue";
+import UsernameComponent from "@/components/common/UsernameComponent.vue";
 import moment from "moment";
 
 const commentSvg = `<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 11h10M7 14h4m3.828 4H19a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h3.188c1 0 1.812.811 1.812 1.812v0c0 .808.976 1.212 1.547.641l1.867-1.867A2 2 0 0 1 14.828 18z"/>`;
@@ -68,17 +68,13 @@ const optionsSvg = `<path d="M64,144H290.75a48,48,0,0,0,90.5,0H448a16,16,0,0,0,0
 export default {
   name: "FreetComponent",
   components: {
-    Vote, Username
+    Vote, UsernameComponent
   },
   props: {
     // Data from the stored freet
     freet: {
       type: Object,
       required: true,
-    },
-    commentsCount: {
-      type: Number,
-      default: null
     },
   },
   data() {
