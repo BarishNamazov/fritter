@@ -87,5 +87,12 @@ FreetSchema.virtual('numDownvotes', {
   }
 });
 
+FreetSchema.virtual('numComments', {
+  ref: 'Comment',
+  localField: '_id',
+  foreignField: 'freetId',
+  count: true
+});
+
 const FreetModel = model<Freet>('Freet', FreetSchema);
 export default FreetModel;
