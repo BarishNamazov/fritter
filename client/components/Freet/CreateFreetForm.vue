@@ -1,22 +1,17 @@
 <template>
-  <form @submit.prevent="submit">
-    <h3>Create a freet</h3>
-    <textarea v-model="content" class="content" />
-    <div class="visibility">
-      <span>Visibility: </span>
-      <span><input v-model="visibility" type="radio" name="public" :value="'public'" /><label for="public">Public</label></span>
-      <span><input v-model="visibility" type="radio" name="friends" :value="'friends'" /><label for="friends">Friends</label></span>
-      <span><input v-model="visibility" type="radio" name="only me" :value="'only me'" /><label for="only me">Only me</label></span>
-    </div>
-    <input class="submit" type="submit" value="Freet">
-  </form>
+  <CreateFreetBlock :content="content" :visibility="visibility" :submitCallback="submit" />
 </template>
 
 <!-- Form for creating freets (block style) -->
 
 <script>
+import CreateFreetBlock from "@/components/Freet/CreateFreetBlock.vue";
+
 export default {
   name: "CreateFreetForm",
+  components: {
+    CreateFreetBlock
+  },
   data() {
     return {
       content: '',
@@ -24,7 +19,10 @@ export default {
     };
   },
   methods: {
-    async submit() {
+    async submit(_content, _visibility) {
+      this.content = _content;
+      this.visibility = _visibility;
+
       const content = this.content.trim();
       if (content === '') {
         alert("Freet content cannot be empty.");
@@ -46,48 +44,13 @@ export default {
           alert(data.error);
         } else {
           alert('Freet created successfully.');
+          this.content = '';
           this.$store.commit("refreshFreets");
         }
+      }).catch(err => {
+        alert(err);
       });
     }
   }
 };
 </script>
-
-<style scoped>
-form {
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: var(--border-radius-large);
-  padding: 10px;
-  margin: 10px 0;
-}
-
-.content {
-  width: 100%;
-  height: 100px;
-  border: 1px solid black;
-  border-radius: var(--border-radius-small);
-  font: inherit;
-  outline: none;
-  padding: 5px;
-  margin-bottom: 1em;
-}
-
-.visibility {
-  display: flex;
-  gap: 1em;
-  margin-bottom: 1em;
-}
-
-.submit {
-  width: 100%;
-  height: 30px;
-  border: 1px solid black;
-  border-radius: var(--border-radius-large);
-  font: inherit;
-  outline: none;
-  padding: 5px;
-  cursor: pointer;
-}
-</style>

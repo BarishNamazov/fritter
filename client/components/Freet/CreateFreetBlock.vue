@@ -1,0 +1,89 @@
+<template>
+  <form @submit.prevent="submitCallback(thisContent, thisVisibility)">
+    <h3>{{ legend }}</h3>
+    <textarea v-model="thisContent" class="content" />
+    <div class="visibility">
+      <span>Visibility: </span>
+      <span><input v-model="thisVisibility" type="radio" name="public" :value="'public'" /><label for="public">Public</label></span>
+      <span><input v-model="thisVisibility" type="radio" name="friends" :value="'friends'" /><label for="friends">Friends</label></span>
+      <span><input v-model="thisVisibility" type="radio" name="only me" :value="'only me'" /><label for="only me">Only me</label></span>
+    </div>
+    <input class="submit" type="submit" value="Freet">
+  </form>
+</template>
+
+<script>
+export default {
+  name: "CreateFreetBlock",
+  props: {
+    legend: {
+      type: String,
+      default: "Create a freet"
+    },
+    content: {
+      type: String,
+      default: ""
+    },
+    visibility: {
+      type: String,
+      default: "public"
+    },
+    submitCallback: {
+      type: Function,
+      required: true
+    }
+  },
+  data() {
+    return {
+      thisContent: this.content,
+      thisVisibility: this.visibility
+    };
+  },
+  watch: {
+    content: function(newContent) {
+      this.thisContent = newContent;
+    },
+    visibility: function(newVisibility) {
+      this.thisVisibility = newVisibility;
+    }
+  }
+};
+</script>
+
+<style scoped>
+form {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: var(--border-radius-large);
+  padding: 10px;
+  margin: 10px 0;
+}
+
+.content {
+  width: 100%;
+  height: 100px;
+  border: 1px solid black;
+  border-radius: var(--border-radius-small);
+  font: inherit;
+  outline: none;
+  padding: 5px;
+  margin-bottom: 1em;
+}
+
+.visibility {
+  display: flex;
+  gap: 1em;
+  margin-bottom: 1em;
+}
+
+.submit {
+  width: 100%;
+  height: 30px;
+  border: 1px solid black;
+  border-radius: var(--border-radius-large);
+  font: inherit;
+  outline: none;
+  padding: 5px;
+  cursor: pointer;
+}
+</style>
