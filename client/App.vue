@@ -15,6 +15,13 @@ import QuickAccess from "@/components/QuickAccess/QuickAccess.vue";
 export default {
   name: "App",
   components: { QuickAccess },
+  watch: {
+    "$store.state.username": function(newValue, oldValue) {
+      if (oldValue === null) {
+        this.initStore();
+      }
+    }
+  },
   beforeCreate() {
     // Sync stored username to current session
     fetch("/api/users/session", {
@@ -28,6 +35,17 @@ export default {
     // Clear alerts on page refresh
     this.$store.state.alerts = {};
   },
+  created() {
+    if (this.$store.state.username) {
+      this.initStore();
+    }
+  },
+  methods: {
+    initStore() {
+      this.$store.commit("initVotes");
+      this.$store.commit("refreshQuickAccess");
+    }
+  }
 };
 </script>
 
