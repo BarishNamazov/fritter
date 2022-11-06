@@ -1,6 +1,6 @@
 <template>
   <section v-if="$store.state.username">
-    <Username class="username" :username="$store.state.username" />
+    <UsernameComponent class="username" :username="$store.state.username" />
     <router-link class="account" to="/account">
       <span>
         <img src="https://www.svgrepo.com/show/281677/settings-gear.svg" />
@@ -21,11 +21,11 @@
 <script>
 
 
-import Username from "@/components/Account/Username.vue";
+import UsernameComponent from "@/components/common/UsernameComponent.vue";
 export default {
   name: "RightSidebar",
   components: {
-    Username,
+    UsernameComponent,
   }
 }
 
