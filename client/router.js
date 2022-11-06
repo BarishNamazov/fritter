@@ -1,21 +1,23 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import FreetsPage from './components/Freet/FreetsPage.vue';
+import AllFreetsPage from './components/Freet/AllFreetsPage.vue';
+import FeedPage from './components/Freet/FeedPage.vue';
 import AccountPage from './components/Account/AccountPage.vue';
 import LoginPage from './components/Login/LoginPage.vue';
 import NotFound from './NotFound.vue';
 import SingleFreetPage from './components/Freet/SingleFreetPage.vue';
-import UserFreetsPage from './components/Freet/UserFreetsPage.vue';
 import StartBreakPage from './components/TakeBreak/StartBreakPage.vue';
+import UserProfilePage from './components/UserProfile/UserProfilePage.vue';
 
 Vue.use(VueRouter);
 
 const routes = [
-  {path: '/', name: 'Home', component: FreetsPage},
+  {path: '/', name: 'Home', component: AllFreetsPage},
+  {path: '/feed', name: 'Feed', component: FeedPage},
   {path: '/account', name: 'Account', component: AccountPage},
   {path: '/login', name: 'Login', component: LoginPage},
   {path: '/freet/:id', name: 'Freet', component: SingleFreetPage},
-  {path: '/user/:username', name: 'User', component: FreetsPage},
+  {path: '/user/:username', name: 'User', component: UserProfilePage},
   {path: '/takebreak', name: 'TakeBreak', component: StartBreakPage},
   {path: '*', name: 'Not Found', component: NotFound}
 ];

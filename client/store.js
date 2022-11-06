@@ -55,7 +55,10 @@ const store = new Vuex.Store({
       /**
        * Request the server for the currently available freets.
        */
-      const url = state.filter ? `/api/freets?author=${state.filter}` : '/api/freets';
+      let url = state.filter ? `/api/freets?author=${state.filter}` : '/api/freets';
+      if (state.filter == `#feed`) {
+        url = `/api/follows/freets`;
+      }
       const res = await fetch(url).then(async r => r.json());
       state.freets = res;
     },
@@ -92,7 +95,6 @@ const store = new Vuex.Store({
         res.forEach(vote => {
           votes[vote.model.toLowerCase()][vote.id] = vote.vote;
         });
-        console.log("state set to be votes");
         state.votes = votes;
       });
     },
