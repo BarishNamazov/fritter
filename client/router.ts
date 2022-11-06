@@ -6,6 +6,7 @@ import LoginPage from './components/Login/LoginPage.vue';
 import NotFound from './NotFound.vue';
 import SingleFreetPage from './components/Freet/SingleFreetPage.vue';
 import UserFreetsPage from './components/Freet/UserFreetsPage.vue';
+import StartBreakPage from './components/TakeBreak/StartBreakPage.vue';
 
 Vue.use(VueRouter);
 
@@ -15,6 +16,7 @@ const routes = [
   {path: '/login', name: 'Login', component: LoginPage},
   {path: '/freet/:id', name: 'Freet', component: SingleFreetPage},
   {path: '/user/:username', name: 'User', component: FreetsPage},
+  {path: '/takebreak', name: 'TakeBreak', component: StartBreakPage},
   {path: '*', name: 'Not Found', component: NotFound}
 ];
 
