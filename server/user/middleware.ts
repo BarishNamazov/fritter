@@ -157,7 +157,8 @@ const isNotTakingBreak = async (req: Request, res: Response, next: NextFunction)
   const user = await ((await UserCollection.findOneByUsername(req.body.username)).populate('currentTakeBreak'));
   if (user.currentTakeBreak) {
     res.status(403).json({
-      error: 'You are currently taking a break.'
+      error: 'You are currently taking a break.',
+      takingbreak: true
     });
     return;
   }
