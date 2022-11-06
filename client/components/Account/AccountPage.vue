@@ -17,6 +17,7 @@
         </header>
         <LogoutForm />
         <DeleteAccountForm />
+        <router-link to="/takebreak">Take a break</router-link>
       </section>
     </div>
     <RightSidebar class="right-sidebar" />
