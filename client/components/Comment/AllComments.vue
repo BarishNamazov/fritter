@@ -40,7 +40,6 @@ export default {
   },
   methods: {
     refreshComments() {
-      console.log("yay, refreshing!!!");
       fetch(`/api/comments?freetId=${this.freetId}`)
         .then((response) => response.json())
         .then((data) => {

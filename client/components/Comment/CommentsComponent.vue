@@ -3,7 +3,7 @@
     <li v-for="item in comments[parentId]" :key="item.id">
       <article class="comment">
         <div class="comment-meta">
-          <Username class="username" :username="item.author" />
+          <UsernameComponent class="username" :username="item.author" />
           <span>•</span>
           <span class="comment-date">{{ relativeDate(item.dateModified) }}
             <span v-if="item.dateCreated !== item.dateModified" class="italic"> (edited) </span>
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import Username from "@/components/Account/Username.vue";
+import UsernameComponent from "@/components/common/UsernameComponent.vue";
 import Vote from "@/components/Vote/Vote.vue";
 import CreateCommentBlock from "@/components/Comment/CreateCommentBlock.vue";
 import moment from "moment";
@@ -42,7 +42,7 @@ import moment from "moment";
 export default {
   name: 'CommentsComponent',
   components: {
-    Username, Vote, CreateCommentBlock
+    UsernameComponent, Vote, CreateCommentBlock
   },
   props: {
     comments: {
