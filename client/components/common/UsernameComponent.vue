@@ -1,9 +1,25 @@
 <template>
   <router-link class="container" :to="`/user/${username}`">
-    <!-- <img :src="`https://robohash.org/${username}?set=set4`" /> -->
     <span v-if="username !== '[comment deleted]'" class="avatar" :style="{backgroundColor: genProperties.shapeColor}">
-      <BigHead v-if="genProperties" shape="circle" 
-          :accessory="genProperties.accessory" :body="genProperties.body" :clothing="genProperties.clothing" :clothingColor="genProperties.clothingColor" :eyebrows="genProperties.eyebrows" :eyes="genProperties.eyes" :facialHair="genProperties.facialHair" :facialHairColor="genProperties.facialHairColor" :graphic="genProperties.graphic" :hair="genProperties.hair" :hairColor="genProperties.hairColor" :hat="genProperties.hat" :hatColor="genProperties.hatColor" :lashes="genProperties.lashes" :lipColor="genProperties.lipColor" :mouth="genProperties.mouth" :shapeColor="genProperties.shapeColor" :skinTone="genProperties.skinTone"
+      <BigHead 
+        v-if="genProperties" 
+        shape="circle" 
+        :accessory="genProperties.accessory" :body="genProperties.body" :clothing="genProperties.clothing" 
+        :clothingColor="genProperties.clothingColor" 
+        :eyebrows="genProperties.eyebrows" 
+        :eyes="genProperties.eyes" 
+        :facialHair="genProperties.facialHair" 
+        :facialHairColor="genProperties.facialHairColor" 
+        :graphic="genProperties.graphic" 
+        :hair="genProperties.hair" 
+        :hairColor="genProperties.hairColor" 
+        :hat="genProperties.hat" 
+        :hatColor="genProperties.hatColor" 
+        :lashes="genProperties.lashes" 
+        :lipColor="genProperties.lipColor" 
+        :mouth="genProperties.mouth" 
+        :shapeColor="genProperties.shapeColor" 
+        :skinTone="genProperties.skinTone"
       />
     </span>
     <span v-else><img src="https://www.svgrepo.com/show/192510/trash.svg" /> </span>
@@ -24,7 +40,7 @@ function randomGenerator(seed) {
 const TSH = s=>{for(var i=0,h=9;i<s.length;)h=Math.imul(h^s.charCodeAt(i++),9**9);return h^h>>>9}
 
 export default {
-  name: "Username",
+  name: "UsernameComponent",
   components: {
     BigHead,
   },
