@@ -25,19 +25,28 @@ export default {
       freet: null,
     };
   },
+  watch: {
+    $route: function() {
+      this.init();
+    }
+  },
   mounted() {
-    // Get the freet ID from the URL
-    const freetId = this.$route.params.id;
-    fetch(`/api/freets/${freetId}`)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.error) {
-          console.log('Error:', data.error);
-          return;
-        }
-        this.freet = data[0];
-      });
+    this.init();
+  },
+  methods: {
+    async init() {
+      const freetId = this.$route.params.id;
+      fetch(`/api/freets/${freetId}`)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.error) {
+            console.log('Error:', data.error);
+            return;
+          }
+          this.freet = data[0];
+        });
       this.$store.commit("initVotes");
+    }
   }
 };
 
