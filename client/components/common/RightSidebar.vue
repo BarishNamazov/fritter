@@ -25,12 +25,12 @@
         <img src="https://www.svgrepo.com/show/219383/login.svg" />
         <span>Login</span>
       </span>
-      <hr />
-      <form class="search" @submit.prevent="handleSearch">
-        <input v-model="search" type="text" placeholder="🔍 Search User" required />
-        <button><img src="https://www.svgrepo.com/show/125898/search.svg" /><span>Search</span></button>
-      </form>
     </router-link>
+    <hr />
+    <form class="search" @submit.prevent="handleSearch">
+      <input v-model="search" type="text" placeholder="🔍 Search User" required />
+      <button><img src="https://www.svgrepo.com/show/125898/search.svg" /><span>Search</span></button>
+    </form>
   </section>
 </template>
 
