@@ -70,7 +70,7 @@ class FriendRequestCollection {
   }
 
   static async updateFriendRequest(requester: MongoId, requestee: MongoId, status: string): Promise<HydratedDocument<FriendRequest>> {
-    const friendRequest = await FriendRequestModel.findOneAndUpdate({requester, requestee}, {status});
+    const friendRequest = await FriendRequestModel.findOneAndUpdate({requester, requestee, status: 'pending'}, {status});
     if (!friendRequest) {
       return friendRequest;
     }
