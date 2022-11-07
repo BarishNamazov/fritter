@@ -60,3 +60,15 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+button {
+  font: inherit;
+  appearance: none;
+  border: 1px solid var(--username-border-color);
+  border-radius: var(--border-radius-small);
+  gap: 0.5em;
+  padding: 0.5em;
+  cursor: pointer;
+}
+</style>
