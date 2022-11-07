@@ -1,24 +1,20 @@
 <template>
   <main>
-    <section class="center-view">
-      <FreetComponent v-if="freet" :freet="freet"/>
-      <div v-if="freet" class="comments">
-        <AllComments :freetId="freet.id" />
-      </div>
+    <FreetComponent v-if="freet" :freet="freet"/>
+    <section v-if="freet" class="comments">
+      <AllComments :freetId="freet.id" />
     </section>
-    <RightSidebar class="right-sidebar" />
   </main>
 </template>
 
 <script>
 import FreetComponent from "@/components/Freet/FreetComponent.vue";
-import RightSidebar from "@/components/common/RightSidebar.vue";
 import AllComments from "@/components/Comment/AllComments.vue";
 
 export default {
   name: "SingleFreetPage",
   components: {
-    FreetComponent, RightSidebar, AllComments
+    FreetComponent, AllComments
   },
   data() {
     return {
@@ -54,16 +50,6 @@ export default {
 
 <style scoped>
 main {
-  display: flex;
-}
-.center-view {
-  flex: 2;
-}
-.right-sidebar {
-  flex: 1;
-}
-
-.center-view {
-  padding: 1em;
+  padding-top: 1em;
 }
 </style>

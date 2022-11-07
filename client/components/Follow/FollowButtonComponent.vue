@@ -28,7 +28,7 @@ export default {
   methods: {
     refresh() {
       if (this.username !== this.$store.state.username) {
-        fetch(`/api/follows/${this.username}`)
+        fetch(`/api/follows/isFollowing/${this.username}`)
           .then(res => res.json())
           .then(follows => {
             this.isFollowing = follows.following;

@@ -4,17 +4,19 @@
       <section class="left-view">
         <QuickAccess />
       </section>
-      <router-view class="rest-view" />
+      <router-view class="center-view" />
+      <RightSidebar class="right-view" />
     </div>
   </div>
 </template>
 
 <script>
 import QuickAccess from "@/components/QuickAccess/QuickAccess.vue";
+import RightSidebar from "@/components/common/RightSidebar.vue";
 
 export default {
   name: "App",
-  components: { QuickAccess },
+  components: { QuickAccess, RightSidebar },
   watch: {
     "$store.state.username": function(newValue, oldValue) {
       if (oldValue === null) {
@@ -85,8 +87,14 @@ body {
   top: 0;
   height: max-content;
 }
-.rest-view {
-  flex: 3;
+.center-view {
+  flex: 2;
+}
+.right-view {
+  flex: 1;
+  position: sticky;
+  top: 0;
+  height: max-content;
 }
 
 img, svg {

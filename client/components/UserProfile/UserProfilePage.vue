@@ -1,20 +1,18 @@
 <template>
   <main>
-    <section class="freets-view">
-      <h3>Freets by {{ $route.params.username }}</h3>
-      <FreetsListComponent :freets="freets" />
-    </section>
-    <RightSidebar class="right-sidebar" />
+    <ProfileComponent :username="$route.params.username" />
+    <h3>Freets by {{ $route.params.username }}</h3>
+    <FreetsListComponent :freets="freets" />
   </main>
 </template>
 
 <script>
 import FreetsListComponent from "@/components/Freet/FreetsListComponent.vue";
-import RightSidebar from "@/components/common/RightSidebar.vue";
+import ProfileComponent from "@/components/UserProfile/ProfileComponent.vue";
 
 export default {
   name: "UserProfilePage",
-  components: { FreetsListComponent, RightSidebar },
+  components: { FreetsListComponent, ProfileComponent },
   data() {
     return {
       freets: []
@@ -40,15 +38,3 @@ export default {
 }
 
 </script>
-
-<style scoped>
-main {
-  display: flex;
-}
-.freets-view {
-  flex: 2;
-}
-.right-sidebar {
-  flex: 1;
-}
-</style>

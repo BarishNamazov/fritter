@@ -1,20 +1,16 @@
 <template>
   <main>
-    <section class="freets-view">
-      <h3>All Freets</h3>
-      <FreetsListComponent :freets="freets" />
-    </section>
-    <RightSidebar class="right-sidebar" />
+    <h3>All Freets</h3>
+    <FreetsListComponent :freets="freets" />
   </main>
 </template>
 
 <script>
 import FreetsListComponent from "@/components/Freet/FreetsListComponent.vue";
-import RightSidebar from "@/components/common/RightSidebar.vue";
 
 export default {
   name: "AllFreetsPage",
-  components: { FreetsListComponent, RightSidebar },
+  components: { FreetsListComponent },
   data() {
     return {
       freets: []
@@ -35,15 +31,3 @@ export default {
 }
 
 </script>
-
-<style scoped>
-main {
-  display: flex;
-}
-.freets-view {
-  flex: 2;
-}
-.right-sidebar {
-  flex: 1;
-}
-</style>
