@@ -2,13 +2,13 @@
   <ul>
     <li v-for="item in comments[parentId]" :key="item.id">
       <article class="comment">
-        <div class="comment-meta">
+        <header class="comment-meta">
           <UsernameComponent class="username" :username="item.author" />
           <span>•</span>
           <span class="comment-date">{{ relativeDate(item.dateModified) }}
             <span v-if="item.dateCreated !== item.dateModified" class="italic"> (edited) </span>
           </span>
-        </div>
+        </header>
         <div class="comment-content">
           {{ item.content }}
         </div>
@@ -113,10 +113,6 @@ export default {
 <style scoped>
 .comments > ul {
   padding: 1em;
-}
-.username {
-  border: 1px solid black;
-  border-radius: var(--border-radius-large);
 }
 li {
   list-style: none;
