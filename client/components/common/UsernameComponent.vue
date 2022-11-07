@@ -52,7 +52,7 @@ export default {
   },
   computed: {
     hash: function () {
-      return TSH(this.username);
+      return TSH(this.username.toLowerCase());
     },
     genProperties: function () {
       return this.getAllProperties();
