@@ -11,6 +11,10 @@
       </div>
       <div v-else class="profile-actions">
         <FollowerCountComponent class="follower-count" :username="username" />
+        <span class="links">
+          <router-link :to="'/follows'"><button>Follows</button></router-link>
+          <router-link :to="'/friends'"><button>Friends</button></router-link>
+        </span>
       </div>
     </article>
   </section>
@@ -67,7 +71,7 @@ section {
   width: 100%;
 }
 
-.follow {
+.follow, .links {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -104,5 +108,9 @@ section {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+a {
+  text-decoration: none;
 }
 </style>
