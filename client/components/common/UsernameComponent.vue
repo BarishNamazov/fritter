@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { properties, BigHead } from "vue-bigheads";
+import { properties, BigHead } from "@/components/BigHeads";
 
 function randomGenerator(seed) {
   return function () {
