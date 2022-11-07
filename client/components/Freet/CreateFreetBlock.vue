@@ -4,9 +4,9 @@
     <textarea ref="textarea" v-model="thisContent" class="content" @input="resize" @focus="resize" @keyup="resize" />
     <div class="visibility">
       <span>Visibility: </span>
-      <span @click="thisVisibility = 'public'"><input v-model="thisVisibility" type="radio" name="public" :value="'public'" /><label for="public">Public</label></span>
-      <span @click="thisVisibility = 'friends'"><input v-model="thisVisibility" type="radio" name="friends" :value="'friends'" /><label for="friends">Friends</label></span>
-      <span @click="thisVisibility = 'only me'"><input v-model="thisVisibility" type="radio" name="only me" :value="'only me'" /><label for="only me">Only me</label></span>
+      <span><label><input v-model="thisVisibility" type="radio" :value="'public'" />Public</label></span>
+      <span><label><input v-model="thisVisibility" type="radio" :value="'friends'" />Friends</label></span>
+      <span><label><input v-model="thisVisibility" type="radio" :value="'only me'" />Only me</label></span>
     </div>
     <input class="submit" type="submit" value="Freet">
   </form>
@@ -92,7 +92,6 @@ form {
   border: 1px solid black;
   border-radius: var(--border-radius-large);
   font: inherit;
-  outline: none;
   padding: 5px;
   cursor: pointer;
 }

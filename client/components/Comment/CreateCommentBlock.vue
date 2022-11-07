@@ -80,7 +80,6 @@ form {
   border: 1px solid black;
   border-radius: var(--border-radius-large);
   font: inherit;
-  outline: none;
   padding: 5px;
   cursor: pointer;
 }
