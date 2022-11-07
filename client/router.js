@@ -9,6 +9,7 @@ import SingleFreetPage from './components/Freet/SingleFreetPage.vue';
 import StartBreakPage from './components/TakeBreak/StartBreakPage.vue';
 import UserProfilePage from './components/UserProfile/UserProfilePage.vue';
 import FollowsListPage from './components/Follow/FollowsListPage.vue';
+import FriendsListPage from './components/Friend/FriendsListPage.vue';
 import FriendRequestsListPage from './components/Friend/FriendRequestsListPage.vue';
 
 Vue.use(VueRouter);
@@ -17,6 +18,7 @@ const routes = [
   {path: '/', name: 'Home', component: AllFreetsPage},
   {path: '/feed', name: 'Feed', component: FeedPage},
   {path: '/follows', name: 'Follows', component: FollowsListPage},
+  {path: '/friends', name: 'Friends', component: FriendsListPage},
   {path: '/requests', name: 'FriendRequests', component: FriendRequestsListPage},
   {path: '/account', name: 'Account', component: AccountPage},
   {path: '/login', name: 'Login', component: LoginPage},

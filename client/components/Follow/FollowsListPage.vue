@@ -30,7 +30,7 @@ export default {
     };
   },
   watch: {
-    username: function() {
+    "$store.state.username": function() {
       this.refresh();
     }
   },
