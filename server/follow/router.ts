@@ -23,6 +23,33 @@ router.get(
   }
 );
 
+router.get(
+  '/isFollowing/:username?',
+  [
+    userValidator.isUserLoggedIn
+  ],
+  async (req: Request, res: Response) => {
+    const userId = (req.session.userId as string) ?? '';
+    const {username} = req.params;
+    if (!username) {
+      res.status(400).json({error: 'Missing username'});
+      return;
+    }
+
+    const user = await UserCollection.findOneByUsername(username);
+    if (!user) {
+      res.status(404).json({error: 'User not found'});
+      return;
+    }
+
+    const following = await FollowCollection.findOneByUserIds(userId, user._id);
+
+    res.status(200).json({
+      following: following !== null
+    });
+  }
+);
+
 router.put(
   '/:followee?',
   [
