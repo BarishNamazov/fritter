@@ -62,6 +62,54 @@ router.delete(
 );
 
 router.get(
+  '/status/:username?',
+  [
+    UserValidator.isUserLoggedIn
+  ],
+  async (req: Request, res: Response, next: NextFunction) => {
+    if (!req.params.username) {
+      return res.status(400).json({
+        error: 'Username not provided.'
+      });
+    }
+
+    const userId = req.session.userId as string;
+    const {username} = req.params;
+    const user = await UserCollection.findOneByUsername(username);
+    if (!user) {
+      return res.status(404).json({
+        error: `User ${username} does not exist.`
+      });
+    }
+
+    const friend = await FriendCollection.findOneFriend(userId, user._id);
+    if (friend) {
+      return res.status(200).json({
+        status: 'friends'
+      });
+    }
+
+    const request = await FriendRequestCollection.findPendingFriendRequest(userId, user._id);
+    if (request) {
+      return res.status(200).json({
+        status: 'request sent'
+      });
+    }
+
+    const incomingRequest = await FriendRequestCollection.findPendingFriendRequest(user._id, userId);
+    if (incomingRequest) {
+      return res.status(200).json({
+        status: 'request received'
+      });
+    }
+
+    res.status(200).json({
+      status: 'not friends'
+    });
+  }
+);
+
+router.get(
   '/requests',
   [
     UserValidator.isUserLoggedIn
