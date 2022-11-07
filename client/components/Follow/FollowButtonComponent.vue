@@ -1,5 +1,5 @@
 <template>
-  <button v-if="username !== $store.state.username">{{ isFollowing ? 'Unfollow' : 'Follow' }}</button>
+  <button v-if="username !== $store.state.username" @click="handleClick">{{ isFollowing ? 'Unfollow' : 'Follow' }}</button>
   <p v-else>You can't follow yourself</p>
 </template>
 
@@ -32,6 +32,25 @@ export default {
           .then(res => res.json())
           .then(follows => {
             this.isFollowing = follows.following;
+          });
+      }
+    },
+    handleClick() {
+      if (this.isFollowing) {
+        fetch(`/api/follows/${this.username}`, {
+          method: 'DELETE'
+        })
+          .then(res => res.json())
+          .then(res => {
+            this.isFollowing = false;
+          });
+      } else {
+        fetch(`/api/follows/${this.username}`, {
+          method: 'PUT'
+        })
+          .then(res => res.json())
+          .then(res => {
+            this.isFollowing = true;
           });
       }
     }
