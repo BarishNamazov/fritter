@@ -20,6 +20,9 @@ export default {
   watch: {
     username: function() {
       this.refresh();
+    },
+    isFollowing: function() {
+      this.$emit('followUpdate');
     }
   },
   mounted() {
