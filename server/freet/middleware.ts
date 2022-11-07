@@ -105,6 +105,10 @@ const _canUserViewFreet = async (userId: string, freetId: string) => {
     return true;
   }
 
+  if (freet.authorId._id.toString() === userId) {
+    return true;
+  }
+
   if (!userId
     || (freet.visibility === 'only me' && userId !== freet.authorId._id.toString())
     || (freet.visibility === 'friends' && !(await FriendCollection.findOneFriend(userId, freet.authorId._id.toString())))) {
