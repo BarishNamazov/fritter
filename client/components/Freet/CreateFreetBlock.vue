@@ -88,10 +88,10 @@ form {
 
 .submit {
   width: 100%;
-  height: 30px;
   border: 1px solid black;
   border-radius: var(--border-radius-large);
   font: inherit;
+  font-size: 1.2em;
   padding: 5px;
   cursor: pointer;
 }
