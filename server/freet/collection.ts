@@ -88,11 +88,11 @@ class FreetCollection {
     const qs = [
       {authorId, visibility: 'public'}
     ];
-    if (friendIds) {
+    if (friendIds || userId.toString() === authorId.toString()) {
       qs.push({authorId, visibility: 'friends'});
     }
 
-    if ((userId as string) === (authorId as string)) {
+    if (userId.toString() === authorId.toString()) {
       qs.push({authorId, visibility: 'only me'});
     }
 
