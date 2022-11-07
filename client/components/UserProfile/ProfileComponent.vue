@@ -3,9 +3,12 @@
     <article class="profile-box">
       <UsernameComponent class="username-component" :username="username" />
       <FollowerCountComponent :username="username" />
-      <div v-if="this.username !== $store.state.username" class="profile-actions">
+      <div
+        v-if="this.username !== $store.state.username"
+        class="profile-actions"
+      >
         <FollowButtonComponent :username="username" />
-        <button>Friend</button>
+        <FriendStatusComponent :username="username" />
       </div>
     </article>
   </section>
@@ -15,35 +18,40 @@
 import UsernameComponent from "@/components/common/UsernameComponent.vue";
 import FollowerCountComponent from "@/components/Follow/FollowerCountComponent.vue";
 import FollowButtonComponent from "@/components/Follow/FollowButtonComponent.vue";
+import FriendStatusComponent from "@/components/Friend/FriendStatusComponent.vue";
 
 export default {
   name: "ProfileComponent",
-  components: { UsernameComponent, FollowerCountComponent, FollowButtonComponent },
+  components: {
+    UsernameComponent,
+    FollowerCountComponent,
+    FollowButtonComponent,
+    FriendStatusComponent,
+  },
   props: {
     username: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
-      followers: '...',
+      followers: "...",
       isFollowing: false,
     };
   },
   watch: {
-    username: function() {
-      console.log('username changed');
+    username: function () {
+      console.log("username changed");
       this.initProfileData();
-    }
+    },
   },
   mounted() {
     this.initProfileData();
   },
   methods: {
-    initProfileData() {
-    }
-  }
+    initProfileData() {},
+  },
 };
 </script>
 
@@ -75,7 +83,7 @@ section {
 .profile-actions {
   width: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
 }
-
 </style>
