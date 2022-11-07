@@ -22,7 +22,7 @@
       </ul>
       <ul v-else>
         <draggable v-bind="dragOptions" handle=".handle" @start="drag=true" @end="drag=false">
-          <li v-for="({name, url}, index) in form" v-if="editing" :key="name + '-' + index" class="quick-access-entry-input">
+          <li v-for="({name, url}, index) in form" :key="name + '-' + index" class="quick-access-entry-input">
             <img src="https://www.svgrepo.com/show/357669/draggabledots.svg" class="handle" />
             <div class="input-container">
               <input :value="name" class="name" />
