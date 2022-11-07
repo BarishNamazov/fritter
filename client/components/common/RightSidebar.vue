@@ -41,6 +41,8 @@ section {
   flex-direction: column;
   align-items: center;
   gap: 1em;
+  border-left: var(--sidebar-border) solid black;
+  height: 100vh;
 }
 .username, .account {
   width: 70%;

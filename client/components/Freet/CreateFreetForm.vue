@@ -45,7 +45,7 @@ export default {
         } else {
           alert('Freet created successfully.');
           this.content = '';
-          this.$store.commit("refreshFreets");
+          this.$emit('refresh');
         }
       }).catch(err => {
         alert(err);

@@ -1,16 +1,18 @@
 <template>
   <main>
-    <h3>All Freets</h3>
+    <h1>All Freets</h1>
+    <CreateFreetForm @refresh="refreshFreets" />
     <FreetsListComponent :freets="freets" />
   </main>
 </template>
 
 <script>
 import FreetsListComponent from "@/components/Freet/FreetsListComponent.vue";
+import CreateFreetForm from "@/components/Freet/CreateFreetForm.vue";
 
 export default {
   name: "AllFreetsPage",
-  components: { FreetsListComponent },
+  components: { FreetsListComponent , CreateFreetForm},
   data() {
     return {
       freets: []
@@ -29,5 +31,10 @@ export default {
     }
   }
 }
-
 </script>
+
+<style scoped>
+main {
+  padding-top: 1em;
+}
+</style>

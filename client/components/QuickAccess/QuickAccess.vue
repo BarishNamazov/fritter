@@ -133,6 +133,8 @@ export default {
 <style scoped>
 section {
   padding: 1em;
+  border-right: var(--sidebar-border) solid black;
+  height: 100vh;
 }
 
 .qa {

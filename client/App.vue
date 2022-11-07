@@ -63,6 +63,8 @@ export default {
   --hover-color: #dee2e6;
   --username-border-color: #1864ab;
   --comment-background-color: #96f2d7;
+
+  --sidebar-border: 2px;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');

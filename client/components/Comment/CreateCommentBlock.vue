@@ -1,7 +1,7 @@
 <template>
   <form @submit.prevent="submitCallback(thisContent)">
     <h3 v-if="legend">{{ legend }}</h3>
-    <textarea v-model="thisContent" class="content" />
+    <textarea ref="textarea" v-model="thisContent" class="content" @input="resize" @focus="resize" @keyup="resize" />
     <button class="submit" type="submit">{{ submitName }}</button>
     <button v-if="cancelCallback" @click="cancelCallback">Cancel</button>
   </form>
@@ -40,6 +40,16 @@ export default {
   watch: {
     content: function(newContent) {
       this.thisContent = newContent;
+      this.$nextTick(() => this.resize());
+    }
+  },
+  mounted() {
+    this.resize();
+  },
+  methods: {
+    resize() {
+      this.$refs.textarea.style.height = "auto";
+      this.$refs.textarea.style.height = this.$refs.textarea.scrollHeight + 4 + "px";
     }
   }
 };
@@ -56,19 +66,13 @@ form {
 
 .content {
   width: 100%;
-  height: 100px;
   border: 1px solid black;
   border-radius: var(--border-radius-small);
   font: inherit;
-  outline: none;
   padding: 5px;
   margin-bottom: 1em;
-}
-
-.visibility {
-  display: flex;
-  gap: 1em;
-  margin-bottom: 1em;
+  min-height: 5em;
+  resize: none;
 }
 
 .button {
