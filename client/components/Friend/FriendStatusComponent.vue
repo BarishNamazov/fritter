@@ -14,6 +14,7 @@
       <button @click="respondRequest('reject')">Reject request</button>
     </article>
     <article v-else>
+      <p>Not friends</p>
       <button @click="sendRequest">Send friend request</button>
     </article>
   </section>
@@ -102,3 +103,17 @@ export default {
 }
 
 </script>
+
+<style scoped>
+article {
+  display: flex;
+  gap: 1em;
+  justify-content: center;
+  align-items: center;
+}
+p {
+  font-size: 1.5em;
+  margin: 0;
+}
+
+</style>

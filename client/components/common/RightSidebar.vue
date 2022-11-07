@@ -122,7 +122,6 @@ section {
 }
 
 .search button {
-  width: 50%;
   font: inherit;
   appearance: none;
   border: 1px solid var(--username-border-color);

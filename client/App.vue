@@ -134,4 +134,17 @@ main {
 .alerts .success {
   background-color: rgb(45, 135, 87);
 }
+
+button {
+  font: inherit;
+  appearance: none;
+  border: 1px solid var(--username-border-color);
+  border-radius: var(--border-radius-small);
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.5em;
+  cursor: pointer;
+  height: 2em;
+}
 </style>

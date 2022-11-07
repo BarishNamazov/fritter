@@ -1,14 +1,16 @@
 <template>
   <section>
     <article class="profile-box">
-      <UsernameComponent class="username-component" :username="username" />
-      <FollowerCountComponent :username="username" />
-      <div
-        v-if="this.username !== $store.state.username"
-        class="profile-actions"
-      >
-        <FollowButtonComponent :username="username" />
-        <FriendStatusComponent :username="username" />
+      <UsernameComponent class="username" :username="username" />
+      <div v-if="this.username !== $store.state.username" class="profile-actions">
+        <span class="follow">
+          <FollowerCountComponent ref="followCount" class="follower-count" :username="username" />
+          <FollowButtonComponent @followUpdate="$refs.followCount.refresh()" class="follow-button" :username="username" />
+        </span>
+        <FriendStatusComponent class="friend-status" :username="username" />
+      </div>
+      <div v-else class="profile-actions">
+        <FollowerCountComponent class="follower-count" :username="username" />
       </div>
     </article>
   </section>
@@ -60,9 +62,26 @@ section {
   padding: 1em 0;
 }
 
-.username-component {
-  font-size: 1.5em;
+.username {
+  font-size: 2em;
   width: 100%;
+}
+
+.follow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 2em;
+  margin-bottom: -1em;
+}
+
+.follower-count {
+  font-size: 1.5em;
+}
+
+.follow-button {
+  width: max-content;
 }
 
 .profile-box {
@@ -70,7 +89,6 @@ section {
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: 1.5em;
 }
 
 .profile-meta-cnt {
@@ -84,6 +102,7 @@ section {
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: center;
+  align-items: center;
 }
 </style>
