@@ -2,7 +2,7 @@
   <main>
     <section class="freets-view">
       <h1>Feed</h1>
-      <h3>Freets by you and people you follow</h3>
+      <h3>Freets by people you follow</h3>
       <FreetsListComponent :freets="freets" />
     </section>
     <RightSidebar class="right-sidebar" />
