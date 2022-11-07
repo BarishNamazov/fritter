@@ -50,15 +50,13 @@ export default {
       required: true,
     }
   },
-  data() {
-    return {
-      genProperties: this.getAllProperties()
-    }
-  },
   computed: {
     hash: function () {
       return TSH(this.username);
     },
+    genProperties: function () {
+      return this.getAllProperties();
+    }
   },
   methods: {
     randomProperty: function (obj, random) {
