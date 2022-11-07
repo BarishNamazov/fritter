@@ -8,7 +8,7 @@
       <span><label><input v-model="thisVisibility" type="radio" :value="'friends'" />Friends</label></span>
       <span><label><input v-model="thisVisibility" type="radio" :value="'only me'" />Only me</label></span>
     </div>
-    <input class="submit" type="submit" value="Freet">
+    <input class="submit" type="submit" :value="submitName">
   </form>
 </template>
 
@@ -31,6 +31,10 @@ export default {
     submitCallback: {
       type: Function,
       required: true
+    },
+    submitName: {
+      type: String,
+      default: "Freet"
     }
   },
   data() {
@@ -74,7 +78,7 @@ form {
   border: 1px solid black;
   border-radius: var(--border-radius-small);
   font: inherit;
-  padding: 5px;
+  padding: 0.5em;
   margin-bottom: 1em;
   min-height: 5em;
   resize: none;

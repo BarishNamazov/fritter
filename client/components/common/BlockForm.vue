@@ -115,7 +115,8 @@ export default {
 <style scoped>
 form {
   border: 1px solid #111;
-  padding: 0.5rem;
+  border-radius: var(--border-radius-small);
+  padding: 1em;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -141,8 +142,9 @@ form h3 {
   margin-top: 0;
 }
 
-textarea {
-  font-family: inherit;
-  font-size: inherit;
+button {
+  display: flex;
+  justify-content: center;
 }
+
 </style>

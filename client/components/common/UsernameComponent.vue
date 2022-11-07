@@ -1,6 +1,6 @@
 <template>
-  <router-link class="container" :to="`/user/${username}`">
-    <span v-if="username !== '[comment deleted]'" class="avatar" :style="{backgroundColor: genProperties.shapeColor}">
+  <router-link v-if="username !== '[comment deleted]'" class="container" :to="`/user/${username}`">
+    <span class="avatar" :style="{backgroundColor: genProperties.shapeColor}">
       <BigHead 
         v-if="genProperties" 
         shape="circle" 
@@ -22,9 +22,12 @@
         :skinTone="genProperties.skinTone"
       />
     </span>
-    <span v-else><img src="https://www.svgrepo.com/show/192510/trash.svg" /> </span>
     <span>{{ username }}</span>
   </router-link>
+  <div v-else class="container">
+    <span class="avatar"><img src="https://www.svgrepo.com/show/192510/trash.svg" /> </span>
+    <span>{{ username }}</span>
+  </div>
 </template>
 
 <script>

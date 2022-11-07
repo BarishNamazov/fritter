@@ -145,6 +145,6 @@ button {
   gap: 0.5em;
   padding: 0.5em;
   cursor: pointer;
-  height: 2em;
+  height: 100%;
 }
 </style>

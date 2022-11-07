@@ -2,8 +2,10 @@
   <form @submit.prevent="submitCallback(thisContent)">
     <h3 v-if="legend">{{ legend }}</h3>
     <textarea ref="textarea" v-model="thisContent" class="content" @input="resize" @focus="resize" @keyup="resize" />
-    <button class="submit" type="submit">{{ submitName }}</button>
-    <button v-if="cancelCallback" @click="cancelCallback">Cancel</button>
+    <span class="button-container">
+      <button class="submit" type="submit">{{ submitName }}</button>
+      <button v-if="cancelCallback" @click="cancelCallback">Cancel</button>
+    </span>
   </form>
 </template>
 
@@ -69,18 +71,14 @@ form {
   border: 1px solid black;
   border-radius: var(--border-radius-small);
   font: inherit;
-  padding: 5px;
+  padding: 0.5em;
   margin-bottom: 1em;
   min-height: 5em;
   resize: none;
 }
 
-.button {
-  height: 30px;
-  border: 1px solid black;
-  border-radius: var(--border-radius-large);
-  font: inherit;
-  padding: 5px;
-  cursor: pointer;
+.button-container {
+  display: flex;
+  gap: 1em;
 }
 </style>

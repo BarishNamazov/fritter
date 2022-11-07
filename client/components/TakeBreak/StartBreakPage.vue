@@ -1,5 +1,6 @@
 <template>
   <main>
+    <h1>Take a Break</h1>
     <p>Need a break from Fritter? We get it, times can be busy sometimes. If you would like, you can disable your account temporarily, it's as easy as freeting. If you want, you can also share it with friends or everyone to let them know!</p>
 
     <CreateFreetBlock 
@@ -7,6 +8,7 @@
       :visibility="visibility" 
       :legend="'Start your break'" 
       :submitCallback="submit"
+      :submitName="'Start break'"
     />
   </main>
 </template>
@@ -62,3 +64,12 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+main {
+  padding-top: 1em;
+}
+p {
+  font-size: 1.2em;
+}
+</style>

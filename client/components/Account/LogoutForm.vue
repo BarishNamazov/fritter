@@ -14,7 +14,7 @@ export default {
       setUsername: true,
       title: "Sign out",
       fields: [],
-      content: "Taking a break? See you later.",
+      content: "Need to leave? See you later.",
       callback: () => {
         this.$router.push({ name: "Home" }); // Goes to Home page after signing out
         this.$store.replaceState(getDefaultState()); // Resets store to default state
