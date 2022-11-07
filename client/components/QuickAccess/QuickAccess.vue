@@ -5,31 +5,34 @@
       <h1 class="title">Fritter</h1>
     </header>
     <div class="qa" v-if="$store.state.username">
-      <button v-if="!editing" @click="startEditing">✏️ Edit</button>
-      <button v-if="editing" @click="saveEdits">Save</button>
-      <button v-if="editing" @click="addEntry">Add</button>
-      <draggable
-        v-if="form.length"
-        v-bind="dragOptions"
-        handle=".handle"
-        @start="drag=true"
-        @end="drag=false"
-      >
-        <!--eslint-disable-next-line vue/no-use-v-if-with-v-for -->
-        <article v-for="{ name, url } in form" v-if="!editing" :key="name" class="quick-access-entry">
+      <div class="actions">
+        <button v-if="!editing" @click="startEditing">✏️ Edit</button>
+        <button v-if="editing" @click="saveEdits">✔️ Save</button>
+        <button v-if="editing" @click="addEntry">➕ Add</button>
+      </div>
+      <ul>
+        <li v-for="{ name, url } in fixed" :key="name" class="quick-access-entry">
           <a :href="url"><span>{{ name }}</span></a>
-        </article>
-        <!-- eslint-disable-next-line vue/no-use-v-if-with-v-for -->
-        <article v-for="({name, url}, index) in form" v-if="editing" :key="name + '-' + index" class="quick-access-entry-input">
-          <span class="handle">X</span>
-          <input :value="name" class="name" />
-          <input :value="url" class="url" />
-          <button v-if="editing" @click="deleteEntry">Delete</button>
-        </article>
-      </draggable>
-      <article v-else>
-        <p>No quick access found.</p>
-      </article>
+        </li>
+      </ul>
+      <ul v-if="!editing">
+        <li v-for="{ name, url } in form" :key="name" class="quick-access-entry">
+          <a :href="url"><span>{{ name }}</span></a>
+        </li>
+      </ul>
+      <ul v-else>
+        <draggable v-bind="dragOptions" handle=".handle" @start="drag=true" @end="drag=false">
+          <li v-for="({name, url}, index) in form" v-if="editing" :key="name + '-' + index" class="quick-access-entry-input">
+            <img src="https://www.svgrepo.com/show/357669/draggabledots.svg" class="handle" />
+            <div class="input-container">
+              <input :value="name" class="name" />
+              <input :value="url" class="url" />
+            </div>
+            <button v-if="editing" @click="deleteEntry">🗑️ Delete</button>
+          </li>
+        </draggable>
+      </ul>
+      
     </div>
     <div class="qa" v-else>
       <article class="quick-access-entry">
@@ -51,7 +54,17 @@ export default {
     return {
       drag: false,
       editing: false,
-      form: Array.from(this.$store.state.quickAccess),
+      form: [],
+      fixed: [
+        {
+          name: "Home",
+          url: "/#/",
+        },
+        {
+          name: "Feed",
+          url: "/#/feed",
+        }
+      ],
     };
   },
   computed: {
@@ -62,8 +75,10 @@ export default {
     },
   },
   watch: {
-    "$store.state.quickAccess": function (newVal) {
-      this.form = newVal;
+    "$store.state.username": function (username) {
+      if (username) {
+        this.refresh();
+      }
     },
     drag: function (newVal) {
       if (!newVal) {
@@ -72,9 +87,17 @@ export default {
     }
   },
   mounted() {
-    this.$store.commit('refreshQuickAccess');
+    this.form = [];
+    this.refresh();
   },
   methods: {
+    refresh() {
+      fetch("/api/quickaccess")
+        .then((res) => res.json())
+        .then((res) => {
+          this.form = res.entries;
+        });
+    },
     startEditing() {
       this.editing = true;
     },
@@ -102,20 +125,16 @@ export default {
         .then((res) => res.json())
         .then((data) => {
           if (data.error) {
-            this.$store.commit("alert", {
-              status: "error",
-              message: data.error,
-            });
+            alert(data.error);
           } else {
-            this.$store.commit("setQuickAccess", this.form);
             this.editing = false;
           }
         })
-        .catch((err) => console.error(err));
+        .catch((err) => alert(err));
     },
     addEntry() {
       this.updateForm();
-      this.form.push({ name: "", url: "" });
+      this.form.push({ name: "", url: "/#/" });
     },
     deleteEntry(event) {
       this.updateForm();
@@ -192,4 +211,47 @@ img {
   font-size: 2em;
   margin: 0 5px;
 }
+
+ul {
+  padding-left: 0;
+  margin-bottom: 1.5em;
+}
+li {
+  list-style: none;
+  margin-bottom: 1em;
+}
+
+.quick-access-entry-input {
+  margin-left: -1em;
+  display: flex;
+  align-items: center;
+  gap: 0.2em;
+}
+.input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2em;
+}
+
+.input-container input {
+  font: inherit;
+  padding: 0.2em;
+  width: 100%;
+}
+
+button {
+  font: inherit;
+  appearance: none;
+  border: 1px solid var(--username-border-color);
+  border-radius: var(--border-radius-small);
+  gap: 0.5em;
+  padding: 0.5em;
+  cursor: pointer;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5em;
+}
+
 </style>

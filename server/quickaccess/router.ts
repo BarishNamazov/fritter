@@ -9,15 +9,18 @@ const router = express.Router();
 
 router.get(
   '/',
-  [
-    userValidator.isUserLoggedIn
-  ],
   async (req: Request, res: Response) => {
     const userId = (req.session.userId as string) ?? '';
+    if (!userId) {
+      return res.status(200).json({
+        entries: [
+          {name: 'Home', url: '/#/'}
+        ]
+      });
+    }
+
     const quickAccess = await QuickAccessCollection.findOneByUserId(userId);
-    res.status(200).json({
-      quickAccess: constructQuickAccessResponse(quickAccess)
-    });
+    res.status(200).json(constructQuickAccessResponse(quickAccess));
   }
 );
 
@@ -29,7 +32,6 @@ router.put(
   ],
   async (req: Request, res: Response) => {
     const userId = req.session.userId as string;
-    console.log(req.session.userId, req.body.entries);
     const quickAccess = await QuickAccessCollection.updateOneByUserId(
       userId, req.body.entries
     );

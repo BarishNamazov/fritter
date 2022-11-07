@@ -10,7 +10,6 @@ export const getDefaultState = () => {
     freets: [], // All freets created in the app
     username: null, // Username of the logged in user
     alerts: {}, // global success/error messages encountered during submissions to non-visible forms
-    quickAccess: [], // Quick access list for the logged in user
     votes: {freet: {}, comment: {}}, // Upvotes/downvotes for freets and comments
   }
 };
@@ -61,22 +60,6 @@ const store = new Vuex.Store({
       }
       const res = await fetch(url).then(async r => r.json());
       state.freets = res;
-    },
-    setQuickAccess(state, quickAccess) {
-      /**
-       * Update the stored quick access to the provided quick access.
-       * @param quickAccess - Quick access to store
-       */
-      state.quickAccess = quickAccess;
-    },
-    refreshQuickAccess(state) {
-      fetch("/api/quickaccess", {
-        credentials: "same-origin", // Sends express-session credentials with request
-      })
-      .then((res) => res.json())
-      .then((res) => {
-        state.quickAccess = res.quickAccess.entries;
-      });
     },
     async initVotes(state) {
       state.votes = {

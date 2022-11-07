@@ -45,7 +45,6 @@ export default {
   methods: {
     initStore() {
       this.$store.commit("initVotes");
-      this.$store.commit("refreshQuickAccess");
     }
   }
 };

@@ -27,7 +27,10 @@ const QuickAccessSchema = new Schema({
     }],
     _id: false,
     required: true,
-    default: [{name: 'Home', url: '/'}]
+    default: [
+      {name: 'Follows', url: '/#/follows'},
+      {name: 'Friends', url: '/#/friends'}
+    ]
   },
   dateUpdated: {
     type: Date,
