@@ -1,7 +1,7 @@
 <template>
   <main>
     <ProfileComponent :username="$route.params.username" />
-    <CreateFreetForm />
+    <CreateFreetForm @refresh="refreshFreets" />
     <h3>Freets by {{ $route.params.username }}</h3>
     <FreetsListComponent :freets="freets" />
   </main>
