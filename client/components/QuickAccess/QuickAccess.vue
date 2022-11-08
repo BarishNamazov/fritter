@@ -7,6 +7,7 @@
     <div class="qa" v-if="$store.state.username">
       <div class="actions">
         <button v-if="!editing" @click="startEditing">✏️ Edit</button>
+        <button v-if="!editing" @click="addCurrentPage">➕ Add current page</button>
         <button v-if="editing" @click="saveEdits">✔️ Save</button>
         <button v-if="editing" @click="addEntry">➕ Add</button>
       </div>
@@ -100,6 +101,13 @@ export default {
     },
     startEditing() {
       this.editing = true;
+    },
+    addCurrentPage() {
+      this.editing = true;
+      this.form.push({
+        name: "New Entry",
+        url: window.location.href,
+      });
     },
     updateForm() {
       const newForm = [];
