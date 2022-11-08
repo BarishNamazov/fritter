@@ -60,6 +60,7 @@ export default {
   --upvote-color: #00b300;
   --downvote-color: #ff0000;
   --hover-color: #dee2e6;
+  --active-color: #adb5bd;
   --username-border-color: #1864ab;
   --comment-background-color: #96f2d7;
 
@@ -137,7 +138,6 @@ main {
 
 button {
   font: inherit;
-  appearance: none;
   border: 1px solid var(--username-border-color);
   border-radius: var(--border-radius-small);
   display: flex;
@@ -146,6 +146,13 @@ button {
   padding: 0.5em;
   cursor: pointer;
   height: 100%;
+}
+
+button:hover {
+  background-color: var(--hover-color);
+}
+button:active {
+  background-color: var(--active-color);
 }
 
 input {

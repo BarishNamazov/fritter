@@ -89,6 +89,10 @@ section {
   background-color: var(--hover-color);
 }
 
+.account:active, .requests:active {
+  background-color: var(--active-color);
+}
+
 .account > span, .requests > span {
   display: flex;
   gap: 0.4em;
