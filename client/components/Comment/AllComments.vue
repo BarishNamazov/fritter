@@ -6,8 +6,11 @@
       :submitName="'Comment'"
       :submitCallback="commentOnFreet"
     />
-    <CommentsComponent v-if="commentsCount" :comments="comments" :parentId="freetId" @refresh="refreshComments"/>
-    <p v-else>No comments, you could be the first!</p>
+    <CommentsComponent v-if="commentsCount && loaded" :comments="comments" :parentId="freetId" @refresh="refreshComments"/>
+    <p v-else-if="loaded">No comments, you could be the first!</p>
+    <div class="loader" v-else>
+      <div class="lds-dual-ring"></div>
+    </div>
   </section>
 </template>
 
@@ -32,7 +35,8 @@ export default {
     return {
       comments: {},
       commentsCount: 0,
-      commentContent: ""
+      commentContent: "",
+      loaded: false,
     };
   },
   mounted() {
@@ -56,6 +60,7 @@ export default {
               comments[par] = [comment];
             }
           }
+          this.loaded = true;
           this.commentsCount = data.length;
           this.comments = comments;
         });
@@ -67,7 +72,11 @@ export default {
         url: `/api/comments/onfreet/${this.freetId}`,
         method: 'POST',
         body: {content: this.commentContent}
-      }).then(() => {
+      }).then((res) => {
+        if (res.error) {
+          this.$toast.error(res.error);
+          return;
+        }
         this.commentContent = "";
         this.refreshComments();
         this.$toast.success("Commented successfully.");
@@ -84,9 +93,6 @@ export default {
         options.body = JSON.stringify(params.body);
       }
       return fetch(params.url, options).then(res => res.json()).then(res => {
-        if (res.error) {
-          this.$toast.error(res.error);
-        }
         return res;
       }).catch(e => {
         this.$toast.error(e);
@@ -95,3 +101,11 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+</style>

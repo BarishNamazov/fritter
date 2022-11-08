@@ -68,7 +68,11 @@ export default {
         url: `/api/comments/oncomment/${id}`,
         method: 'POST',
         body: {content}
-      }).then(() => {
+      }).then((res) => {
+        if (res.error) {
+          this.$toast.error(res.error);
+          return;
+        }
         this.$set(this.showReply, id, false);
         this.$set(this.reply, id, '');
         this.$emit('refresh');
@@ -81,7 +85,11 @@ export default {
       this.request({
         url: `/api/comments/${id}`,
         method: 'DELETE',
-      }).then(() => {
+      }).then((res) => {
+        if (res.error) {
+          this.$toast.error(res.error);
+          return;
+        }
         this.$emit('refresh');
         this.$toast.success('Comment deleted successfully!');
       }).catch((e) => {
@@ -97,9 +105,6 @@ export default {
         options.body = JSON.stringify(params.body);
       }
       return fetch(params.url, options).then(res => res.json()).then(res => {
-        if (res.error) {
-          this.$toast.error(res.error);
-        }
         return res;
       }).catch(e => {
         this.$toast.error(e);

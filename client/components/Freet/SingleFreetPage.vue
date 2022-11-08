@@ -1,8 +1,8 @@
 <template>
   <main>
-    <FreetComponent v-if="freet" :freet="freet"/>
+    <FreetComponent v-if="freet" :freet="freet" :loaded="loaded"/>
     <section v-if="freet" class="comments">
-      <AllComments :freetId="freet.id" />
+      <AllComments @refresh="init" :freetId="freet.id" />
     </section>
   </main>
 </template>
@@ -19,10 +19,12 @@ export default {
   data() {
     return {
       freet: null,
+      loaded: false
     };
   },
   watch: {
     $route: function() {
+      this.loaded = false;
       this.init();
     }
   },
@@ -39,6 +41,7 @@ export default {
             this.$toast.error(data.error);
             return;
           }
+          this.loaded = true;
           this.freet = data[0];
         }).catch(err => {
           this.$toast.error("Unexpected error has happened. Please try refreshing the page.");

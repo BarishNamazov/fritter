@@ -2,7 +2,7 @@
 <!-- We've tagged some elements with classes; consider writing CSS using those classes to style them... -->
 
 <template>
-  <article class="freet">
+  <article class="freet" v-if="loaded">
     <header>
       <div class="freet-meta">
         <UsernameComponent class="author" :username="freet.author" />
@@ -46,6 +46,9 @@
       <span title="options" class="freet-options"><img alt="options" src="https://www.svgrepo.com/show/327453/options.svg" /></span>
     </div>
   </article>
+  <div class="loader" v-else>
+    <div class="lsd-dual-ring"></div>
+  </div>
 </template>
 
 <script>
@@ -66,6 +69,10 @@ export default {
       type: Object,
       required: true,
     },
+    loaded: {
+      type: Boolean,
+      default: true,
+    }
   },
   data() {
     return {
@@ -218,5 +225,11 @@ img, svg {
 
 .italic {
   font-style: italic;
+}
+
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
