@@ -3,7 +3,7 @@
     <ProfileComponent :username="$route.params.username" />
     <CreateFreetForm v-if="$route.params.username === $store.state.username" @refresh="refreshFreets" />
     <h3>Freets by {{ $route.params.username }}</h3>
-    <FreetsListComponent :freets="freets" />
+    <FreetsListComponent :freets="freets" @refresh="refreshFreets" />
   </main>
   <main v-else-if="!notFound" class="loader">
     <div class="lds-dual-ring"></div>

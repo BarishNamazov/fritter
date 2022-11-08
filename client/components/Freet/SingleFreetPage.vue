@@ -1,6 +1,6 @@
 <template>
   <main>
-    <FreetComponent v-if="freet" :freet="freet" :loaded="loaded"/>
+    <FreetComponent v-if="freet" :freet="freet" :loaded="loaded" @refresh="init"/>
     <section v-if="freet" class="comments">
       <AllComments @refresh="init" :freetId="freet.id" />
     </section>

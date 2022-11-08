@@ -2,7 +2,7 @@
   <main>
     <h1>Feed</h1>
     <h2>Freets by people you follow</h2>
-    <FreetsListComponent :freets="freets" :loaded="loaded" />
+    <FreetsListComponent :freets="freets" :loaded="loaded" @refresh="refreshFreets" />
   </main>
 </template>
 

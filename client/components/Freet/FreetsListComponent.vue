@@ -1,6 +1,7 @@
 <template>
   <section v-if="loaded && freets.length">
     <FreetComponent
+      @refresh="$emit('refresh')"
       v-for="freet in freets"
       :key="freet.id"
       :freet="freet"

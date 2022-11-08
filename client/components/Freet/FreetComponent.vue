@@ -13,37 +13,46 @@
         <span>•</span>
         <span class="freet-visibility">{{ freet.visibility }}</span>
       </div>
-      
-      <!-- TODO Deal with this in options later -->
-      <!-- <div v-if="$store.state.username === freet.author" class="actions">
-        <button v-if="editing" @click="submitEdit">✅ Save changes</button>
-        <button v-if="editing" @click="stopEditing">🚫 Discard changes</button>
-        <button v-if="!editing" @click="startEditing">✏️ Edit</button>
-        <button @click="deleteFreet">🗑️ Delete</button>
-      </div> -->
     </header>
     <div v-if="editing">
       <textarea
-        class="content"
+        aria-label="freet content"
+        class="edit-content"
         :value="draft"
         @input="draft = $event.target.value"
       />
-      <input v-model="visibility" type="radio" name="public" :value="'public'" /><label for="public">Public</label>
-      <input v-model="visibility" type="radio" name="friends" :value="'friends'" /><label for="friends">Friends</label>
-      <input v-model="visibility" type="radio" name="only me" :value="'only me'" /><label for="only me">Only me</label>
+      <div class="visibility">
+        <span>Visibility: </span>
+        <span><label><input v-model="visibility" type="radio" :value="'public'" />Public</label></span>
+        <span><label><input v-model="visibility" type="radio" :value="'friends'" />Friends</label></span>
+        <span><label><input v-model="visibility" type="radio" :value="'only me'" />Only me</label></span>
+      </div>
+      <div class="edit-actions">
+        <button @click="submitEdit">✅ Save</button>
+        <button @click="() => {draft = freet.content; editing = false;}">🚫 Discard</button>
+      </div>
     </div>
     <div v-else>
       <p class="content">
         {{ freet.content }}
       </p>
     </div>
-    <div class="freet-actions">
+    <div class="freet-actions" v-if="!editing">
       <Vote class="freet-votes" :item="freet" :model="'freet'" />
-      <router-link class="freet-comments" title="comments" :to="`/freet/${freet.id}`">
+      <router-link class="freet-comments" :to="`/freet/${freet.id}`">
         <span>{{ freet.numComments }}</span>
         <svg class="comment-logo" v-html="commentSvg" />
-      </router-link>
-      <span title="options" class="freet-options"><img alt="options" src="https://www.svgrepo.com/show/327453/options.svg" /></span>
+      </router-link> 
+      <span class="freet-options" @click="showActions ^= 1" v-my-click-outside="disableActions">
+        <div class="freet-options-actions" :class="{show: showActions}">
+          <button v-if="freet.author === $store.state.username" @click="deleteFreet">🗑️ Delete</button>
+          <button v-if="freet.author === $store.state.username" @click="editing = true">✏️ Edit</button>
+          <button @click="copyLink">🔗 Copy link</button>
+        </div>
+        <span>
+          <img alt="options" src="https://www.svgrepo.com/show/327453/options.svg" />
+        </span>
+      </span>
     </div>
   </article>
   <div class="loader" v-else>
@@ -79,7 +88,7 @@ export default {
       editing: false, // Whether or not this freet is in edit mode
       draft: this.freet.content, // Potentially-new content for this freet
       visibility: this.freet.visibility,
-      alerts: {}, // Displays success/error messages encountered during freet modification
+      showActions: false,
       commentSvg,
     };
   },
@@ -102,6 +111,8 @@ export default {
       /**
        * Deletes this freet.
        */
+      const val = confirm("Are you sure you want to delete this freet?");
+      if (!val) return;
       const params = {
         method: "DELETE",
         callback: () => {
@@ -116,6 +127,7 @@ export default {
        */
       if (this.freet.content === this.draft && this.freet.visibility === this.visibility) {
         this.$toast.warning("Nothing changed, edit did not go through.");
+        this.editing = false;
         return;
       }
 
@@ -128,6 +140,7 @@ export default {
         },
       };
       this.request(params);
+      this.showActions = false;
     },
     async request(params) {
       /**
@@ -154,12 +167,24 @@ export default {
         this.editing = false;
 
         params.callback();
+        this.$emit("refresh");
       } catch (e) {
         this.$toast.error(e.message);
       }
     },
     relativeDate(date) {
       return moment(date).fromNow();
+    },
+    disableActions() {
+      this.showActions = false;
+    },
+    copyLink() {
+      const url = window.location.origin + '/#/freet/' + this.freet.id;
+      navigator.clipboard.writeText(url).then(() => {
+        this.$toast.success("Copied link to clipboard!");
+      }, () => {
+        this.$toast.error("Failed to copy link to clipboard!");
+      });
     }
   },
 };
@@ -201,6 +226,17 @@ export default {
   padding: 0.5em;
 }
 
+.freet-options-actions {
+  display: none;
+  flex-direction: column;
+  gap: 0.4em;
+  position: absolute;
+  bottom: 4.5em;
+}
+.freet-options-actions.show {
+  display: flex;
+}
+
 .freet-comments:hover, .freet-options:hover {
   background-color: var(--hover-color);
   border-radius: var(--border-radius-large);
@@ -210,6 +246,23 @@ export default {
 .freet-actions {
   align-items: center;
   gap: 2em;
+}
+
+.edit-content {
+  width: 100%;
+  border: 1px solid black;
+  border-radius: var(--border-radius-small);
+  font: inherit;
+  padding: 0.5em;
+  margin-bottom: 1em;
+  min-height: 5em;
+  resize: none;
+}
+
+.edit-actions {
+  padding-top: 1em;
+  display: flex;
+  gap: 1em;
 }
 
 img, svg {

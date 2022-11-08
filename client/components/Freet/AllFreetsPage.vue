@@ -3,7 +3,7 @@
     <h1>All Freets</h1>
     <h2>Let everyone know what's going on!</h2>
     <CreateFreetForm @refresh="refreshFreets" />
-    <FreetsListComponent :freets="freets" :loaded="loaded" />
+    <FreetsListComponent :freets="freets" :loaded="loaded" @refresh="refreshFreets" />
   </main>
 </template>
 
