@@ -9,13 +9,15 @@
             <span v-if="item.dateCreated !== item.dateModified" class="italic"> (edited) </span>
           </span>
         </header>
-        <div class="comment-content">
+        <div class="comment-content" v-if="!editing[item.id]">
           {{ item.content }}
         </div>
+        <textarea v-else v-model="editingContent[item.id]" class="content"></textarea>
         <div class="comment-actions">
           <Vote :model="'comment'" :item="item" />
-          <button @click="$set(showReply, item.id, true)">Reply</button>
-          <button v-if="item.author === $store.state.username" @click="deleteComment(item.id)">Delete</button>
+          <button v-if="item.author !== '[comment deleted]'" @click="() => {if ($store.state.username) $set(showReply, item.id, true); else $toast.error('You must be logged in to reply');}">Reply</button>
+          <button v-if="item.author === $store.state.username && !editing[item.id]" @click="deleteComment(item.id)">Delete</button>
+          <button v-if="item.author === $store.state.username" @click="edit(item.id, item.content)">{{editing[item.id] ? 'Save' : 'Edit'}}</button>
         </div>
       </article>
       <div v-if="showReply[item.id]" class="comment-reply">
@@ -57,6 +59,8 @@ export default {
     return {
       showReply: {},
       reply: {},
+      editing: {},
+      editingContent: {}
     }
   },
   methods: {
@@ -95,6 +99,34 @@ export default {
       }).catch((e) => {
         this.$toast.error(e);
       });
+    },
+    edit(id, content) {
+      const cur = this.editing[id];
+      if (content === this.editingContent[id]) {
+        this.$set(this.editing, id, !cur);
+        this.$toast.warning("Nothing changed, so edit didn't go through");
+        return;
+      }
+      if (cur) {
+        this.request({
+          url: `/api/comments/${id}`,
+          method: 'PUT',
+          body: {content: this.editingContent[id]}
+        }).then((res) => {
+          if (res.error) {
+            this.$toast.error(res.error);
+            return;
+          }
+          this.$set(this.editing, id, false);
+          this.$emit('refresh');
+          this.$toast.success('Comment edited successfully!');
+        }).catch((e) => {
+          this.$toast.error(e);
+        });
+      } else {
+        this.$set(this.editingContent, id, content);
+        this.$set(this.editing, id, true);
+      }
     },
     async request(params) {
       const options = {
@@ -141,6 +173,17 @@ li {
   padding-top: 0.5em;
   padding-left: 0.5em;
   margin-bottom: 0.5em;
+}
+
+.content {
+  width: 100%;
+  border: 1px solid black;
+  border-radius: var(--border-radius-small);
+  font: inherit;
+  padding: 0.5em;
+  margin-bottom: 1em;
+  min-height: 5em;
+  resize: none;
 }
 
 </style>
