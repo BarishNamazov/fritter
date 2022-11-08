@@ -3,33 +3,33 @@
     <UsernameComponent class="username" :username="$store.state.username" />
     <router-link class="account" to="/account">
       <span>
-        <img src="https://www.svgrepo.com/show/281677/settings-gear.svg" />
+        <img alt="settings" src="https://www.svgrepo.com/show/281677/settings-gear.svg" />
         <span>Account</span>
       </span>
     </router-link>
     <router-link class="requests" to="/requests">
       <span>
-        <img src="https://img.icons8.com/color/512/invite.png" />
+        <img alt="friend requests" src="https://img.icons8.com/color/512/invite.png" />
         <span>Requests</span>
       </span>
     </router-link>
     <hr />
     <form class="search" @submit.prevent="handleSearch">
-      <input v-model="search" type="text" placeholder="🔍 Search User" required />
-      <button><img src="https://www.svgrepo.com/show/125898/search.svg" /><span>Search</span></button>
+      <input aria-label="search bar" v-model="search" type="text" placeholder="🔍 Search User" required />
+      <button><img alt="search" src="https://www.svgrepo.com/show/125898/search.svg" /><span>Search</span></button>
     </form>
   </section>
   <section v-else>
     <router-link class="account" to="/login">
       <span>
-        <img src="https://www.svgrepo.com/show/219383/login.svg" />
+        <img alt="login" src="https://www.svgrepo.com/show/219383/login.svg" />
         <span>Login</span>
       </span>
     </router-link>
     <hr />
     <form class="search" @submit.prevent="handleSearch">
-      <input v-model="search" type="text" placeholder="🔍 Search User" required />
-      <button><img src="https://www.svgrepo.com/show/125898/search.svg" /><span>Search</span></button>
+      <input aria-label="search bar" v-model="search" type="text" placeholder="🔍 Search User" required />
+      <button><img alt="search" src="https://www.svgrepo.com/show/125898/search.svg" /><span>Search</span></button>
     </form>
   </section>
 </template>

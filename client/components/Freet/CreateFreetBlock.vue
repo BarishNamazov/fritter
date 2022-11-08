@@ -1,7 +1,11 @@
 <template>
   <form @submit.prevent="submitCallback(thisContent, thisVisibility)">
     <h3>{{ legend }}</h3>
-    <textarea ref="textarea" v-model="thisContent" class="content" @input="resize" @focus="resize" @keyup="resize" />
+    <textarea 
+      aria-label="freet content" ref="textarea" v-model="thisContent" id="freet-content" class="content" 
+      @input="resize" @focus="resize" @keyup="resize" 
+      placeholder="What's going on?"
+    />
     <div class="visibility">
       <span>Visibility: </span>
       <span><label><input v-model="thisVisibility" type="radio" :value="'public'" />Public</label></span>

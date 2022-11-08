@@ -39,21 +39,12 @@
     </div>
     <div class="freet-actions">
       <Vote class="freet-votes" :item="freet" :model="'freet'" />
-      <router-link class="freet-comments" :to="`/freet/${freet.id}`">
+      <router-link class="freet-comments" title="comments" :to="`/freet/${freet.id}`">
         <span>{{ freet.numComments }}</span>
         <svg class="comment-logo" v-html="commentSvg" />
       </router-link>
-      <span class="freet-options"><img src="https://www.svgrepo.com/show/327453/options.svg" /></span>
+      <span title="options" class="freet-options"><img alt="options" src="https://www.svgrepo.com/show/327453/options.svg" /></span>
     </div>
-    <section class="alerts">
-      <article
-        v-for="(status, alert, index) in alerts"
-        :key="index"
-        :class="status"
-      >
-        <p>{{ alert }}</p>
-      </article>
-    </section>
   </article>
 </template>
 
@@ -62,8 +53,7 @@ import Vote from "@/components/Vote/Vote.vue";
 import UsernameComponent from "@/components/common/UsernameComponent.vue";
 import moment from "moment";
 
-const commentSvg = `<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 11h10M7 14h4m3.828 4H19a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h3.188c1 0 1.812.811 1.812 1.812v0c0 .808.976 1.212 1.547.641l1.867-1.867A2 2 0 0 1 14.828 18z"/>`;
-const optionsSvg = `<path d="M64,144H290.75a48,48,0,0,0,90.5,0H448a16,16,0,0,0,0-32H381.25a48,48,0,0,0-90.5,0H64a16,16,0,0,0,0,32Z"/><path d="M448,368H381.25a48,48,0,0,0-90.5,0H64a16,16,0,0,0,0,32H290.75a48,48,0,0,0,90.5,0H448a16,16,0,0,0,0-32Z"/><path d="M448,240H221.25a48,48,0,0,0-90.5,0H64a16,16,0,0,0,0,32h66.75a48,48,0,0,0,90.5,0H448a16,16,0,0,0,0-32Z"/>`;
+const commentSvg = `<title>comments</title><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 11h10M7 14h4m3.828 4H19a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h3.188c1 0 1.812.811 1.812 1.812v0c0 .808.976 1.212 1.547.641l1.867-1.867A2 2 0 0 1 14.828 18z"/>`;
 
 export default {
   name: "FreetComponent",
@@ -84,7 +74,6 @@ export default {
       visibility: this.freet.visibility,
       alerts: {}, // Displays success/error messages encountered during freet modification
       commentSvg,
-      optionsSvg
     };
   },
   methods: {

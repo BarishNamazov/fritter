@@ -1,10 +1,10 @@
 <template>
   <span class="container">
-    <button class="vote upvote" @click="() => handleVote('upvote')">
+    <button title="upvote" class="vote upvote" @click="() => handleVote('upvote')">
       <svg :class="{active: vote === 'upvote'}" v-html="vote === 'upvote' ? filledUpvoteSvg : upvoteSvg" />
     </button>
     <span>{{ votes }}</span>
-    <button class="vote downvote" @click="() => handleVote('downvote')">
+    <button title="downvote" class="vote downvote" @click="() => handleVote('downvote')">
       <svg :class="{active: vote === 'downvote'}" v-html="vote === 'downvote' ? filledUpvoteSvg : upvoteSvg" />
     </button>
   </span>  
@@ -12,8 +12,8 @@
 
 <script>
 
-const upvoteSvg = `<path fill="currentColor" d="M12.781 2.375c-.381-.475-1.181-.475-1.562 0l-8 10A1.001 1.001 0 0 0 4 14h4v7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7h4a1.001 1.001 0 0 0 .781-1.625l-8-10zM15 12h-1v8h-4v-8H6.081L12 4.601 17.919 12H15z"/>`;
-const filledUpvoteSvg = `<path fill="currentColor" d="M4 14h4v7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7h4a1.001 1.001 0 0 0 .781-1.625l-8-10c-.381-.475-1.181-.475-1.562 0l-8 10A1.001 1.001 0 0 0 4 14z"/>`;
+const upvoteSvg = `<title>upvote</title><path fill="currentColor" d="M12.781 2.375c-.381-.475-1.181-.475-1.562 0l-8 10A1.001 1.001 0 0 0 4 14h4v7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7h4a1.001 1.001 0 0 0 .781-1.625l-8-10zM15 12h-1v8h-4v-8H6.081L12 4.601 17.919 12H15z"/>`;
+const filledUpvoteSvg = `<title>downvote</title><path fill="currentColor" d="M4 14h4v7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7h4a1.001 1.001 0 0 0 .781-1.625l-8-10c-.381-.475-1.181-.475-1.562 0l-8 10A1.001 1.001 0 0 0 4 14z"/>`;
 
 export default {
   name: "Vote",

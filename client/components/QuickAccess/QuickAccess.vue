@@ -1,7 +1,7 @@
 <template>
   <section>
     <header class="fritter">
-      <img src="../../public/logo.svg" />
+      <img alt="fritter logo" src="../../public/logo.svg" />
       <h1 class="title">Fritter</h1>
     </header>
     <div class="qa" v-if="$store.state.username">

@@ -25,7 +25,7 @@
     <span>{{ username }}</span>
   </router-link>
   <div v-else class="container">
-    <span class="avatar"><img src="https://www.svgrepo.com/show/192510/trash.svg" /> </span>
+    <span class="avatar"><img alt="deleted" src="https://www.svgrepo.com/show/192510/trash.svg" /> </span>
     <span>{{ username }}</span>
   </div>
 </template>
