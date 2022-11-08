@@ -3,7 +3,7 @@
     <h1>All Freets</h1>
     <h2>Let everyone know what's going on!</h2>
     <CreateFreetForm @refresh="refreshFreets" />
-    <FreetsListComponent :freets="freets" />
+    <FreetsListComponent :freets="freets" :loaded="loaded" />
   </main>
 </template>
 
@@ -16,7 +16,8 @@ export default {
   components: { FreetsListComponent , CreateFreetForm},
   data() {
     return {
-      freets: []
+      freets: [],
+      loaded: false
     };
   },
   mounted() {
@@ -27,6 +28,7 @@ export default {
       await fetch(`/api/freets`)
         .then(res => res.json())
         .then(freets => {
+          this.loaded = true;
           this.freets = freets;
         }).catch(err => {
           this.$toast.error("Unexpected error has happened. Please try refreshing the page.");
