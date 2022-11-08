@@ -1,7 +1,7 @@
 <template>
   <main>
     <h1>Friends</h1>
-    <h2></h2>
+    <h2>Your friends can see your freets with "friends" visibility</h2>
     <ul v-if="this.friends.length">
       <li v-for="{friend, since} in this.friends" :key="friend">
         <UsernameComponent :username="friend" />
