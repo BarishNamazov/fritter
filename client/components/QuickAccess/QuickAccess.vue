@@ -58,11 +58,11 @@ export default {
       form: [],
       fixed: [
         {
-          name: "Home",
+          name: "🏠 Home",
           url: "/#/",
         },
         {
-          name: "Feed",
+          name: "📜 Feed",
           url: "/#/feed",
         }
       ],
