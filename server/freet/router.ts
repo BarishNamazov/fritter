@@ -72,8 +72,8 @@ router.get(
     }
 
     const freets = await FreetCollection.findAllVisibleToUser(req.session.userId, {_id: req.params.freetId});
-    if (!freets) {
-      res.status(404).json({error: 'Freet not found.'});
+    if (!freets || freets.length === 0) {
+      return res.status(404).json({error: 'Freet not found.'});
     }
 
     const response = freets.map(util.constructFreetResponse);
