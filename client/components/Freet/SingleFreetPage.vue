@@ -1,5 +1,6 @@
 <template>
   <main>
+    <h1 v-if="freet">Freet by {{ freet.author }}</h1>
     <FreetComponent v-if="freet" :freet="freet" :loaded="loaded" @refresh="init"/>
     <section v-if="freet" class="comments">
       <AllComments @refresh="init" :freetId="freet.id" />

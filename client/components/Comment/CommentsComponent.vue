@@ -15,9 +15,10 @@
         <textarea v-else v-model="editingContent[item.id]" class="content"></textarea>
         <div class="comment-actions">
           <Vote :model="'comment'" :item="item" />
-          <button v-if="item.author !== '[comment deleted]'" @click="() => {if ($store.state.username) $set(showReply, item.id, true); else $toast.error('You must be logged in to reply');}">Reply</button>
-          <button v-if="item.author === $store.state.username && !editing[item.id]" @click="deleteComment(item.id)">Delete</button>
-          <button v-if="item.author === $store.state.username" @click="edit(item.id, item.content)">{{editing[item.id] ? 'Save' : 'Edit'}}</button>
+          <button v-if="item.author !== '[comment deleted]'" @click="() => {if ($store.state.username) $set(showReply, item.id, true); else $toast.error('You must be logged in to reply');}">↩️ Reply</button>
+          <button v-if="item.author === $store.state.username && !editing[item.id]" @click="deleteComment(item.id)">🗑️ Delete</button>
+          <button v-if="item.author === $store.state.username" @click="edit(item.id, item.content)">{{editing[item.id] ? '✅ Save' : '✏️ Edit'}}</button>
+          <button v-if="editing[item.id]" @click="cancelEdit(item.id, item.content)">🚫 Discard</button>
         </div>
       </article>
       <div v-if="showReply[item.id]" class="comment-reply">
@@ -26,7 +27,7 @@
             :submitCallback="replyToCommentFunction(item.id)"
             :cancelCallback="() => $set(showReply, item.id, false)"
             :legend="`Reply to ${item.author}`"
-            :submitName="'Reply'"
+            :submitName="'↩️ Reply'"
           />
         </li></ul>
       </div>
@@ -86,6 +87,8 @@ export default {
       });
     },
     deleteComment(id) {
+      const confirm = window.confirm('Are you sure you want to delete this comment?');
+      if (!confirm) return;
       this.request({
         url: `/api/comments/${id}`,
         method: 'DELETE',
@@ -102,12 +105,12 @@ export default {
     },
     edit(id, content) {
       const cur = this.editing[id];
-      if (content === this.editingContent[id]) {
-        this.$set(this.editing, id, !cur);
-        this.$toast.warning("Nothing changed, so edit didn't go through");
-        return;
-      }
       if (cur) {
+        if (content === this.editingContent[id]) {
+          this.$set(this.editing, id, !cur);
+          this.$toast.warning("Nothing changed, so edit didn't go through");
+          return;
+        }
         this.request({
           url: `/api/comments/${id}`,
           method: 'PUT',
@@ -127,6 +130,10 @@ export default {
         this.$set(this.editingContent, id, content);
         this.$set(this.editing, id, true);
       }
+    },
+    cancelEdit(id, content) {
+      this.$set(this.editing, id, false);
+      this.$set(this.editingContent, id, content);
     },
     async request(params) {
       const options = {

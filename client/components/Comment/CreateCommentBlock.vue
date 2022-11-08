@@ -1,10 +1,10 @@
 <template>
-  <form @submit.prevent="submitCallback(thisContent)">
+  <form @submit.prevent="handleSubmit">
     <h3 v-if="legend">{{ legend }}</h3>
     <textarea ref="textarea" v-model="thisContent" class="content" @input="resize" @focus="resize" @keyup="resize" />
     <span class="button-container">
       <button class="submit" type="submit">{{ submitName }}</button>
-      <button v-if="cancelCallback" @click="cancelCallback">Cancel</button>
+      <button v-if="cancelCallback" @click="cancelCallback">🚫 Cancel</button>
     </span>
   </form>
 </template>
@@ -52,6 +52,9 @@ export default {
     resize() {
       this.$refs.textarea.style.height = "auto";
       this.$refs.textarea.style.height = this.$refs.textarea.scrollHeight + 4 + "px";
+    },
+    handleSubmit() {
+      this.submitCallback(this.thisContent);
     }
   }
 };

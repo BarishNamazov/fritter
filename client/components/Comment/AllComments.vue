@@ -6,7 +6,7 @@
       :submitName="'Comment'"
       :submitCallback="commentOnFreet"
     />
-    <CommentsComponent v-if="commentsCount && loaded" :comments="comments" :parentId="freetId" @refresh="refreshComments"/>
+    <CommentsComponent v-if="commentsCount && loaded" :comments="comments" :parentId="freetId" @refresh="handleRefresh"/>
     <p v-else-if="loaded">No comments, you could be the first!</p>
     <div class="loader" v-else>
       <div class="lds-dual-ring"></div>
@@ -43,6 +43,10 @@ export default {
     this.refreshComments();
   },
   methods: {
+    handleRefresh() {
+      this.refreshComments();
+      this.$emit("refresh");
+    },
     refreshComments() {
       fetch(`/api/comments?freetId=${this.freetId}`)
         .then((response) => response.json())
@@ -79,6 +83,7 @@ export default {
         }
         this.commentContent = "";
         this.refreshComments();
+        this.$emit("refresh");
         this.$toast.success("Commented successfully.");
       }).catch((e) => {
         this.$toast.error(e);
