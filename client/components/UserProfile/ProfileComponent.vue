@@ -12,8 +12,8 @@
       <div v-else class="profile-actions">
         <FollowerCountComponent class="follower-count" :username="username" />
         <span class="links">
-          <router-link :to="'/follows'"><button>Follows</button></router-link>
-          <router-link :to="'/friends'"><button>Friends</button></router-link>
+          <router-link :to="'/follows'"><button>My Follows</button></router-link>
+          <router-link :to="'/friends'"><button>My Friends</button></router-link>
         </span>
       </div>
     </article>

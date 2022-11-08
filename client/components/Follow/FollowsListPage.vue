@@ -69,5 +69,6 @@ li {
   border: 1px solid var(--username-border-color);
   border-radius: var(--border-radius-large);
   padding: 1em;
+  margin-bottom: 1em;
 }
 </style>
