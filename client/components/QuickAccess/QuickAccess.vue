@@ -13,12 +13,12 @@
       </div>
       <ul>
         <li v-for="{ name, url } in fixed" :key="name" class="quick-access-entry">
-          <a :href="url"><span>{{ name }}</span></a>
+          <a :href="url"><span :class="{bold: curUrl && (curUrl.endsWith(url) || (curUrl + '/').endsWith(url))}">{{ name }}</span></a>
         </li>
       </ul>
       <ul v-if="!editing">
         <li v-for="{ name, url } in form" :key="name" class="quick-access-entry">
-          <a :href="url"><span>{{ name }}</span></a>
+          <a :href="url"><span :class="{bold: curUrl && (curUrl.endsWith(url) || (curUrl + '/').endsWith(url))}">{{ name }}</span></a>
         </li>
       </ul>
       <ul v-else>
@@ -66,6 +66,7 @@ export default {
           url: "/#/feed",
         }
       ],
+      curUrl: window.location.href.toString(),
     };
   },
   computed: {
@@ -85,6 +86,9 @@ export default {
       if (!newVal) {
         this.updateForm();
       }
+    },
+    "$route": function (newVal) {
+      this.curUrl = window.location.href.toString();
     }
   },
   mounted() {
@@ -276,4 +280,7 @@ button {
   gap: 0.5em;
 }
 
+.bold {
+  font-weight: bold;
+}
 </style>
