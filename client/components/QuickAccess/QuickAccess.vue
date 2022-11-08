@@ -115,6 +115,11 @@ export default {
         name: "New Entry",
         url: window.location.href,
       });
+      this.$nextTick(() => {
+        const el = document.querySelector(".quick-access-entry-input:last-child .name");
+        console.log(el);
+        el.focus();
+      });
     },
     updateForm() {
       const newForm = [];
