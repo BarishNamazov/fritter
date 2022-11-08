@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <nav>
     <header class="fritter">
       <img alt="fritter logo" src="../../public/logo.svg" />
       <h1 class="title">Fritter</h1>
@@ -39,7 +39,7 @@
         <a :href="'/#/'"><span>Home</span></a>
       </article>
     </div>
-  </section>
+  </nav>
 </template>
 
 <script>
@@ -164,7 +164,7 @@ export default {
 </script>
 
 <style scoped>
-section {
+nav {
   padding: 1em;
   border-right: var(--sidebar-border) solid black;
   height: 100vh;
