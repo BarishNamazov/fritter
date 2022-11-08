@@ -58,7 +58,7 @@ export default {
           this.$router.push({ name: "Home" });
         }
       }).catch(err => {
-        this.$toast.error(err);
+        this.$toast.error("Unexpected error has happened. Please try refreshing the page.");
       });
     }
   }

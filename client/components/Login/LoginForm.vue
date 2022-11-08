@@ -66,7 +66,7 @@ export default {
           this.$toast.success(data.message);
           this.$store.commit("setUsername", this.username);
         }).catch(err => {
-          this.$toast.error(err);
+          this.$toast.error("Unexpected error has happened. Please try refreshing the page.");
         });
     }
   }

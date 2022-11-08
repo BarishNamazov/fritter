@@ -93,7 +93,7 @@ export default {
             this.refresh();
           }
         }).catch(err => {
-          this.$toast.error(err);
+          this.$toast.error("Unexpected error has happened. Please try refreshing the page.");
         });
     },
     cancelRequest(username) {
@@ -109,7 +109,7 @@ export default {
             this.refresh();
           }
         }).catch(err => {
-          this.$toast.error(err);
+          this.$toast.error("Unexpected error has happened. Please try refreshing the page.");
         });
     }
   }
