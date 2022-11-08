@@ -8,7 +8,7 @@
       <span><label><input v-model="thisVisibility" type="radio" :value="'friends'" />Friends</label></span>
       <span><label><input v-model="thisVisibility" type="radio" :value="'only me'" />Only me</label></span>
     </div>
-    <input class="submit" type="submit" :value="submitName">
+    <button class="submit" type="submit">{{ submitName }}</button>
   </form>
 </template>
 
@@ -90,7 +90,14 @@ form {
   margin-bottom: 1em;
 }
 
-.submit {
+button {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  border-radius: var(--border-radius-large);
+}
+
+/* .submit {
   width: 100%;
   border: 1px solid black;
   border-radius: var(--border-radius-large);
@@ -98,5 +105,5 @@ form {
   font-size: 1.2em;
   padding: 5px;
   cursor: pointer;
-}
+} */
 </style>
