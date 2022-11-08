@@ -28,6 +28,30 @@ router.get(
   }
 );
 
+router.get(
+  '/exists/:username?',
+  async (req: Request, res: Response) => {
+    if (!req.params.username) {
+      res.status(400).json({
+        message: 'Username is required.'
+      });
+      return;
+    }
+
+    const user = await UserCollection.findOneByUsername(req.params.username);
+    if (!user) {
+      res.status(404).json({
+        message: `No user with username ${req.params.username} exists.`
+      });
+      return;
+    }
+
+    res.status(200).json({
+      message: 'User exists'
+    });
+  }
+);
+
 /**
  * Sign in user.
  *
