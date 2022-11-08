@@ -39,7 +39,7 @@ export default {
       const username = this.username.trim();
       const password = this.password.trim();
       if (username === "" || password === "") {
-        alert("Username and password cannot be empty.");
+        this.$toast.error("Username and password cannot be empty.");
         return;
       }
       fetch("/api/users/session", {
