@@ -15,7 +15,6 @@
         <h2>Account management</h2>
       </header>
       <LogoutForm />
-      <DeleteAccountForm />
       <form>
         <h3>Take a break</h3>
         <p>
@@ -25,6 +24,7 @@
         </p>
         <router-link to="/takebreak"><button>Take a break</button></router-link>
       </form>
+      <DeleteAccountForm />
     </section>
   </main>
 </template>
