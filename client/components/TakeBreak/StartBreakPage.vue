@@ -35,7 +35,7 @@ export default {
 
       const content = this.content.trim();
       if (content === '') {
-        alert("Freet content cannot be empty.");
+        this.$toast.error("Freet content cannot be empty.");
         return;
       }
       fetch('/api/takebreaks/start', {
