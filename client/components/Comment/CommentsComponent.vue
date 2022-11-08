@@ -72,8 +72,9 @@ export default {
         this.$set(this.showReply, id, false);
         this.$set(this.reply, id, '');
         this.$emit('refresh');
+        this.$toast.success('Reply added to successfully!');
       }).catch((e) => {
-        alert("Error: " + e);
+        this.$toast.error(e);
       });
     },
     deleteComment(id) {
@@ -82,8 +83,9 @@ export default {
         method: 'DELETE',
       }).then(() => {
         this.$emit('refresh');
+        this.$toast.success('Comment deleted successfully!');
       }).catch((e) => {
-        alert("Error: " + e);
+        this.$toast.error(e);
       });
     },
     async request(params) {
@@ -96,11 +98,11 @@ export default {
       }
       return fetch(params.url, options).then(res => res.json()).then(res => {
         if (res.error) {
-          alert(res.error);
+          this.$toast.error(res.error);
         }
         return res;
       }).catch(e => {
-        alert(e);
+        this.$toast.error(e);
       });
     },
     relativeDate(date) {

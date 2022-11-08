@@ -18,10 +18,7 @@ export default {
       callback: () => {
         this.$router.push({ name: "Home" }); // Goes to Home page after signing out
         this.$store.replaceState(getDefaultState()); // Resets store to default state
-        this.$store.commit("alert", {
-          message: "You are now signed out!",
-          status: "success",
-        });
+        this.$toast.info("You are now signed out!");
       },
     };
   },

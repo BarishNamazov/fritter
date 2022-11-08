@@ -59,17 +59,14 @@ export default {
             return;
           }
           if (data.error) {
-            alert(data.error);
+            this.$toast.error(data.error);
             return;
           }
           this.$router.push({ name: "Home" });
-          this.$store.commit("alert", {
-            message: "You are now signed in!",
-            status: "success",
-          });
+          this.$toast.success(data.message);
           this.$store.commit("setUsername", this.username);
         }).catch(err => {
-          alert(err);
+          this.$toast.error(err);
         });
     }
   }

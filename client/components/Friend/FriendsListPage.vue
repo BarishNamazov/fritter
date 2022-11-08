@@ -46,6 +46,8 @@ export default {
               since: moment(friend.dateFriends).format('MMMM Do YYYY, h:mm:ss a')
             };
           });
+        }).catch(err => {
+          this.$toast.error(err);
         });
     },
     unfriend(username) {
@@ -54,7 +56,12 @@ export default {
       })
         .then(res => res.json())
         .then(res => {
-          this.refresh();
+          if (res.error) {
+            this.$toast.error(res.error);
+          } else {
+            this.$toast.success(res.message);
+            this.refresh();
+          }
         });
     }
   }

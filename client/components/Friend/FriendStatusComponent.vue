@@ -54,6 +54,8 @@ export default {
           .then(res => res.json())
           .then(status => {
             this.status = status.status;
+          }).catch(err => {
+            this.$toast.error("Unexpected error has happened. Please try refreshing the page.");
           });
       }
     },
@@ -63,7 +65,14 @@ export default {
       })
         .then(res => res.json())
         .then(res => {
+          if (res.error) {
+            this.$toast.error(res.error);
+            return;
+          }
+          this.$toast.success(res.message);
           this.status = 'request sent';
+        }).catch(err => {
+          this.$toast.error("Unexpected error has happened. Please try refreshing the page.");
         });
     },
     respondRequest(response) {
@@ -79,6 +88,8 @@ export default {
         .then(res => res.json())
         .then(res => {
           this.status = response === 'accept' ? 'friends' : 'not friends';
+        }).catch(err => {
+          this.$toast.error("Unexpected error has happened. Please try refreshing the page.");
         });
     },
     unfriend() {
@@ -87,7 +98,14 @@ export default {
       })
         .then(res => res.json())
         .then(res => {
+          if (res.error) {
+            this.$toast.error(res.error);
+            return;
+          }
+          this.$toast.success(res.message);
           this.status = 'not friends';
+        }).catch(err => {
+          this.$toast.error("Unexpected error has happened. Please try refreshing the page.");
         });
     },
     cancelRequest() {
@@ -96,7 +114,14 @@ export default {
       })
         .then(res => res.json())
         .then(res => {
+          if (res.error) {
+            this.$toast.error(res.error);
+            return;
+          }
+          this.$toast.success(res.message);
           this.status = 'not friends';
+        }).catch(err => {
+          this.$toast.error("Unexpected error has happened. Please try refreshing the page.");
         });
     }
   }

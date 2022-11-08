@@ -68,7 +68,7 @@ export default {
       .then(res => res.json())
       .then(data => {
         if (data.error) {
-          alert(data.error);
+          this.$toast.error(data.error);
           this.$store.commit("initVotes");
           return;
         }
@@ -78,6 +78,9 @@ export default {
         if (vote === 'upvote') this.item.numUpvotes += 1;
         else this.item.numDownvotes += 1;
         this.toggle = !this.toggle;
+      }).catch(err => {
+        this.$toast.error("Unexpected error has happened. Please try refreshing the page.");
+        this.$store.commit("initVotes");
       });
     },
     handleUnvote() {
@@ -87,7 +90,7 @@ export default {
       .then(res => res.json())
       .then(data => {
         if (data.error) {
-          alert(data.error);
+          this.$toast.error(data.error);
           this.$store.commit("initVotes");
           return;
         }
@@ -95,6 +98,9 @@ export default {
         else this.item.numDownvotes -= 1;
         this.$store.commit("unvoteModel", { model: this.model, id: this.id });
         this.toggle = !this.toggle;
+      }).catch(err => {
+        this.$toast.error("Unexpected error has happened. Please try refreshing the page.");
+        this.$store.commit("initVotes");
       });
     }
   },

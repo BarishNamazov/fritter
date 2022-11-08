@@ -44,7 +44,7 @@ export default {
         .then((response) => response.json())
         .then((data) => {
           if (data.error) {
-            console.log("Error:", data.error);
+            this.$toast.error(data.error);
             return;
           }
           const comments = {};
@@ -70,8 +70,9 @@ export default {
       }).then(() => {
         this.commentContent = "";
         this.refreshComments();
+        this.$toast.success("Commented successfully.");
       }).catch((e) => {
-        alert("Error: " + e);
+        this.$toast.error(e);
       });
     },
     async request(params) {
@@ -84,11 +85,11 @@ export default {
       }
       return fetch(params.url, options).then(res => res.json()).then(res => {
         if (res.error) {
-          alert(res.error);
+          this.$toast.error(res.error);
         }
         return res;
       }).catch(e => {
-        alert(e);
+        this.$toast.error(e);
       });
     }
   },

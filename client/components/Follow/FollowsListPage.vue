@@ -48,6 +48,8 @@ export default {
               since: moment(follow.dateFollowing).format('MMMM Do YYYY, h:mm:ss a')
             };
           });
+        }).catch(err => {
+          this.$toast.error("Unexpected error has happened. Please try refreshing the page.");
         });
     }
   }

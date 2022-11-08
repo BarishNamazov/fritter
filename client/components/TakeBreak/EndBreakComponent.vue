@@ -47,9 +47,8 @@ export default {
       this.visibility = _visibility;
 
       const content = this.content.trim();
-      console.log("content", content);
       if (content === '') {
-        alert("Freet content cannot be empty.");
+        this.$toast.error("Freet content cannot be empty.");
         return;
       }
       fetch('/api/takebreaks/end', {
@@ -67,15 +66,15 @@ export default {
       .then(res => res.json())
       .then(data => {
         if (data.error) {
-          alert(data.error);
+          this.$toast.error(data.error);
         } else {
           this.$store.commit("setUsername", this.username);
           this.$store.commit("initVotes");
-          alert('You have ended your break!');
+          this.$toast.success(data.message);
           this.$router.push({ name: "Home" });
         }
       }).catch(err => {
-        alert(err);
+        this.$toast.error("Unexpected error has happened. Please try refreshing the page.");
       });
     }
   }

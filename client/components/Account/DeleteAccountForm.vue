@@ -17,10 +17,7 @@ export default {
         "Deleting your account is permanent and irreversible. Proceed only if you understand these consequences.",
       callback: () => {
         this.$router.push({ name: "Home" }); // Goes to Home page after deleting account
-        this.$store.commit("alert", {
-          message: "Your account has been deleted!",
-          status: "success",
-        });
+        this.$toast.success("Your account has been deleted!");
       },
     };
   },

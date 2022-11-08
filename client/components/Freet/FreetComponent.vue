@@ -98,10 +98,7 @@ export default {
       const params = {
         method: "DELETE",
         callback: () => {
-          this.$store.commit("alert", {
-            message: "Successfully deleted freet!",
-            status: "success",
-          });
+          this.$toast.success("Freet deleted!");
         },
       };
       this.request(params);
@@ -111,10 +108,7 @@ export default {
        * Updates freet to have the submitted draft content.
        */
       if (this.freet.content === this.draft && this.freet.visibility === this.visibility) {
-        const error =
-          "Error: Edited freet content or visibility should be different than current freet content or visibility.";
-        this.$set(this.alerts, error, "error"); // Set an alert to be the error text, timeout of 3000 ms
-        setTimeout(() => this.$delete(this.alerts, error), 3000);
+        this.$toast.warning("Nothing changed, edit did not go through.");
         return;
       }
 
@@ -123,8 +117,7 @@ export default {
         message: "Successfully edited freet!",
         body: JSON.stringify({ content: this.draft, visibility: this.visibility }),
         callback: () => {
-          this.$set(this.alerts, params.message, "success");
-          setTimeout(() => this.$delete(this.alerts, params.message), 3000);
+          this.$toast.success("Freet edited!");
         },
       };
       this.request(params);
@@ -155,8 +148,7 @@ export default {
 
         params.callback();
       } catch (e) {
-        this.$set(this.alerts, e, "error");
-        setTimeout(() => this.$delete(this.alerts, e), 3000);
+        this.$toast.error(e.message);
       }
     },
     relativeDate(date) {

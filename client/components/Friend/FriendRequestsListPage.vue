@@ -86,7 +86,14 @@ export default {
       })
         .then(res => res.json())
         .then(res => {
-          this.refresh();
+          if (res.error) {
+            this.$toast.error(res.error);
+          } else {
+            this.$toast.success(res.message);
+            this.refresh();
+          }
+        }).catch(err => {
+          this.$toast.error(err);
         });
     },
     cancelRequest(username) {
@@ -95,7 +102,14 @@ export default {
       })
         .then(res => res.json())
         .then(res => {
-          this.refresh();
+          if (res.error) {
+            this.$toast.error(res.error);
+          } else {
+            this.$toast.success(res.message);
+            this.refresh();
+          }
+        }).catch(err => {
+          this.$toast.error(err);
         });
     }
   }

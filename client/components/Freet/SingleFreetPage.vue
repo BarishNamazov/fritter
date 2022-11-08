@@ -36,10 +36,12 @@ export default {
         .then((response) => response.json())
         .then((data) => {
           if (data.error) {
-            console.log('Error:', data.error);
+            this.$toast.error(data.error);
             return;
           }
           this.freet = data[0];
+        }).catch(err => {
+          this.$toast.error("Unexpected error has happened. Please try refreshing the page.");
         });
       this.$store.commit("initVotes");
     }

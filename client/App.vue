@@ -155,4 +155,8 @@ input {
   padding: 0.3em;
 }
 
+.v-toast__item--success {
+  background-color: #37b24d !important;
+}
+
 </style>

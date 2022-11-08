@@ -125,12 +125,13 @@ export default {
         .then((res) => res.json())
         .then((data) => {
           if (data.error) {
-            alert(data.error);
+            this.$toast.error(data.error);
           } else {
+            this.$toast.success("Saved!");
             this.editing = false;
           }
         })
-        .catch((err) => alert(err));
+        .catch((err) => this.$toast.error(err));
     },
     addEntry() {
       this.updateForm();

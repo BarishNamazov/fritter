@@ -35,6 +35,8 @@ export default {
           .then(res => res.json())
           .then(follows => {
             this.isFollowing = follows.following;
+          }).catch(err => {
+            this.$toast.error("Unexpected error has happened. Please try refreshing the page.");
           });
       }
     },
@@ -45,7 +47,14 @@ export default {
         })
           .then(res => res.json())
           .then(res => {
+            if (res.error) {
+              this.$toast.error(res.error);
+              return;
+            }
             this.isFollowing = false;
+            this.$toast.success(res.message);
+          }).catch(err => {
+            this.$toast.error("Unexpected error has happened. Please try refreshing the page.");
           });
       } else {
         fetch(`/api/follows/${this.username}`, {
@@ -53,7 +62,14 @@ export default {
         })
           .then(res => res.json())
           .then(res => {
+            if (res.error) {
+              this.$toast.error(res.error);
+              return;
+            }
             this.isFollowing = true;
+            this.$toast.success(res.message);
+          }).catch(e => {
+            this.$toast.error("Unexpected error has happened. Please try refreshing the page.");
           });
       }
     }

@@ -28,6 +28,8 @@ export default {
         .then(res => res.json())
         .then(freets => {
           this.freets = freets;
+        }).catch(err => {
+          this.$toast.error("Unexpected error has happened. Please try refreshing the page.");
         });
     }
   }

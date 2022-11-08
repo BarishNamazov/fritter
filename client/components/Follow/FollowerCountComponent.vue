@@ -30,6 +30,8 @@ export default {
         .then(res => res.json())
         .then(follows => {
           this.followers = follows.followerCount;
+        }).catch(err => {
+          this.$toast.error("Unexpected error has happened. Please try refreshing the page.");
         });
     }
   }

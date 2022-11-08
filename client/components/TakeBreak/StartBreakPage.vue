@@ -51,14 +51,14 @@ export default {
       .then(res => res.json())
       .then(data => {
         if (data.error) {
-          alert(data.error);
+          this.$toast.error(data.error);
         } else {
           this.$store.replaceState(getDefaultState());
-          alert('You are now taking a break!');
+          this.$toast.success(data.message);
           this.$router.push({ name: "Home" });
         }
       }).catch(err => {
-        alert(err);
+        this.$toast.error(err);
       });
     }
   }

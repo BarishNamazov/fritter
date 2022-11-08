@@ -43,12 +43,12 @@ export default {
         if (data.error) {
           this.$toast.error(data.error);
         } else {
-          this.$toast.success('Freet created successfully.');
+          this.$toast.success(data.message);
           this.content = '';
           this.$emit('refresh');
         }
       }).catch(err => {
-        this.$toast.error('Something went wrong. Please try again.');
+        this.$toast.error("Unexpected error has happened. Please try refreshing the page.");
       });
     }
   }
