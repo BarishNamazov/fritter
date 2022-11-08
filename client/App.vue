@@ -147,4 +147,12 @@ button {
   cursor: pointer;
   height: 100%;
 }
+
+input {
+  font: inherit;
+  border: 1px solid var(--username-border-color);
+  border-radius: var(--border-radius-small);
+  padding: 0.3em;
+}
+
 </style>
