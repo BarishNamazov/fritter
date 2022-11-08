@@ -1,7 +1,7 @@
 <template>
   <main>
     <ProfileComponent :username="$route.params.username" />
-    <CreateFreetForm @refresh="refreshFreets" />
+    <CreateFreetForm v-if="$route.params.username === $store.state.username" @refresh="refreshFreets" />
     <h3>Freets by {{ $route.params.username }}</h3>
     <FreetsListComponent :freets="freets" />
   </main>
