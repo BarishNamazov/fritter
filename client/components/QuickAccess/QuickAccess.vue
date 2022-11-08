@@ -115,6 +115,19 @@ export default {
     },
     saveEdits() {
       this.updateForm();
+      const good = true;
+      this.form.forEach(
+        ({ name, url }) => {
+          if (name === 'Home' || name === 'Feed') {
+            this.$toast.error("You cannot name an entry 'Home' or 'Feed'");
+            good = false;
+            return;
+          }
+        }
+      );
+      if (!good) {
+        return;
+      }
       fetch("/api/quickaccess", {
         method: "PUT",
         headers: {
