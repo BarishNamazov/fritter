@@ -25,7 +25,7 @@ export default {
 
       const content = this.content.trim();
       if (content === '') {
-        alert("Freet content cannot be empty.");
+        this.$toast.error("Freet content cannot be empty.");
         return;
       }
       fetch('/api/freets', {
@@ -41,14 +41,14 @@ export default {
       .then(res => res.json())
       .then(data => {
         if (data.error) {
-          alert(data.error);
+          this.$toast.error(data.error);
         } else {
-          alert('Freet created successfully.');
+          this.$toast.success('Freet created successfully.');
           this.content = '';
           this.$emit('refresh');
         }
       }).catch(err => {
-        alert(err);
+        this.$toast.error('Something went wrong. Please try again.');
       });
     }
   }

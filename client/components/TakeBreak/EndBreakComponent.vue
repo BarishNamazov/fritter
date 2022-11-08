@@ -71,7 +71,6 @@ export default {
         } else {
           this.$store.commit("setUsername", this.username);
           this.$store.commit("initVotes");
-          this.$store.commit("refreshQuickAccess");
           alert('You have ended your break!');
           this.$router.push({ name: "Home" });
         }

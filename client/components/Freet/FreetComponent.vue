@@ -152,7 +152,6 @@ export default {
         }
 
         this.editing = false;
-        this.$store.commit("refreshFreets");
 
         params.callback();
       } catch (e) {

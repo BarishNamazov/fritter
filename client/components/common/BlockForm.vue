@@ -95,11 +95,7 @@ export default {
             res.user ? res.user.username : null
           );
         }
-
-        if (this.refreshFreets) {
-          this.$store.commit("refreshFreets");
-        }
-
+        
         if (this.callback) {
           this.callback();
         }
