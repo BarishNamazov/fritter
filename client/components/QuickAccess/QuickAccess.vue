@@ -1,8 +1,10 @@
 <template>
   <nav>
     <header class="fritter">
-      <img alt="fritter logo" src="../../public/logo.svg" />
-      <h1 class="title">Fritter</h1>
+      <router-link to="/">
+        <img alt="fritter logo" src="../../public/logo.svg" />
+        <h1>Fritter</h1>
+      </router-link>
     </header>
     <div class="qa" v-if="$store.state.username">
       <div class="actions">
@@ -66,7 +68,7 @@ export default {
           url: "/#/feed",
         }
       ],
-      curUrl: window.location.href.toString(),
+      curUrl: null,
     };
   },
   computed: {
@@ -94,6 +96,7 @@ export default {
   mounted() {
     this.form = [];
     this.refresh();
+    this.curUrl = window.location.href.toString();
   },
   methods: {
     refresh() {
@@ -178,6 +181,7 @@ export default {
 <style scoped>
 nav {
   padding: 1em;
+  padding-top: 0;
   border-right: var(--sidebar-border) solid black;
   height: 100vh;
 }
@@ -222,10 +226,12 @@ a:hover span {
   margin-right: 0.5em;
 }
 
-.fritter {
+.fritter > a {
   display: flex;
-  /* justify-content: space-between; */
   align-items: center;
+  justify-content: center;
+  font-size: 1.5em;
+  gap: 0.2em;
 }
 
 img {
